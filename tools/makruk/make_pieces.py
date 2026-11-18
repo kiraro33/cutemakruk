@@ -14,7 +14,8 @@ frame added around the Bia so that it is drawn smaller than the other pieces.
 import re
 import sys
 
-PIECES = [("K", "khun"), ("F", "met"), ("E", "khon"), ("R", "rua"), ("N", "ma"), ("P", "bia")]
+PIECES = [("K", "khun"), ("F", "met"), ("E", "khon"), ("R", "rua"), ("N", "ma"), ("P", "bia"),
+          ("B", "biangai")]  # B: promoted Bia (moves as a Met; the GUI shows it apart)
 STEP = 120.0  # piece files are 95.25 x 95.25 user units; keep the pieces apart
 # The GUI scales every element to 80% of a square by its bounds. The Bia disc would then be as
 # big as the Khun, so it gets an invisible square frame (centred on the disc, which sits in the

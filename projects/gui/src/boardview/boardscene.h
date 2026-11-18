@@ -136,6 +136,7 @@ class BoardScene : public QGraphicsScene
 		QPropertyAnimation* pieceAnimation(GraphicsPiece* piece,
 						   const QPointF& endPoint) const;
 		void stopAnimation();
+		void refreshPromotedPieces();
 		void tryMove(GraphicsPiece* piece, const QPointF& targetPos);
 		void selectPiece(const QList<Chess::Piece>& types,
 				 const char* member);

@@ -35,7 +35,7 @@ results had to be fixed afterwards. The problems it had, and what Cute Makruk do
 | Results | had to be re-judged by a separate script; in a 1,000-game test 146 results changed | the result is already the Thai result: 0 of 1,000 changed |
 | Game length | 322 plies on average, 66.5 min for 1,000 games at 10+0.1 | 194 plies on average, 45.9 min for the same match |
 | Variants | 75 chess variants, `standard` by default | Makruk only, the default |
-| GUI | chess pieces, English | Makruk pieces, Thai by default (English selectable), Thai board labels |
+| GUI | chess pieces, English | Makruk pieces, Thai by default (English selectable), the running count under the clocks, own image for a promoted Bia |
 
 The numbers come from the same 1,000-game match (same engines, book and seed)
 played once with Cute Chess and once with Cute Makruk; both PGNs were checked
@@ -73,6 +73,7 @@ Tests (`tools/makruk/`, they need a Platoo checkout for the rule cases):
 
     python tools/makruk/rule_cases.py --platoo <platoo checkout> --judge build/makrukjudge.exe
     python tools/makruk/compare_readjudicate.py --judge build/makrukjudge.exe games.pgn games_thai.csv
+    python tools/makruk/display_cases.py --judge build/makrukjudge.exe   # promoted Bia + count shown in the GUI
 
 `makrukjudge` is a small driver around the board code: `makrukjudge pos` reads
 `<fen>|<uci moves>` lines and prints FEN, result, counting state and legal moves;
@@ -94,6 +95,7 @@ Build (MSYS2 MinGW64, Qt 6):
   ([Fulmene/makruk-pieces-image](https://github.com/Fulmene/makruk-pieces-image)),
   CC BY-SA 4.0.
 * **[Qt](https://www.qt.io)** by The Qt Company and contributors (LGPL v3).
+* **Button icons** from [Lucide](https://lucide.dev) (ISC licence, `projects/gui/res/icons/lucide/LICENSE`).
 
 ## License
 

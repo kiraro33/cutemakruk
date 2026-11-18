@@ -91,6 +91,20 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 		 * it (R5.11), e.g. "board side w limit 64 next 3 moved 0".
 		 */
 		QString thaiCountingString() const;
+		/*! cutemakruk: the running count, for display (GUI). */
+		struct ThaiCountInfo
+		{
+			int type;	//!< 0 none, 1 board's honour, 2 pieces' honour
+			Side side;	//!< the counting side
+			int count;	//!< moves counted so far
+			int limit;	//!< the count ends the game at this number
+		};
+		ThaiCountInfo thaiCountInfo() const;
+		/*!
+		 * cutemakruk: true if the piece on \a square is a promoted
+		 * Bia (display only; it moves and counts as a Met).
+		 */
+		bool isPromotedAt(const Square& square) const;
 
 	protected:
 		/*! Piece types for Makruk */
@@ -218,6 +232,7 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 			int totalPlies;
 			int pieceCount[King + 1][2];
 			ThaiData thai;
+			quint64 promoted;	// display: squares (file + 8 * rank) with a promoted Bia
 		};
 		QVarLengthArray<MoveData> m_history;
 

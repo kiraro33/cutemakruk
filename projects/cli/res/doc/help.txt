@@ -105,10 +105,6 @@ Options:
   -maxmoves N		Adjudicate the game as a draw if the game is still
 			ongoing after N or more full moves have been played.
 			This limit is not in action if set to zero.
-			Cute Makruk ends games by the Thai rules 2569 itself;
-			the Syzygy (chess) tablebase options of cutechess-cli are
-			removed. Makruk endgame tables are an engine option,
-			e.g. Platoo: "option.TBPath=<folder>".
   -tournament TYPE	Set the tournament type to TYPE, which can be one of:
 			'round-robin': Round-robin tournament (default)
 			'gauntlet': First engine(s) against the rest

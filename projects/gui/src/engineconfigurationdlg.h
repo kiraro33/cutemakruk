@@ -26,6 +26,7 @@
 class EngineOption;
 class EngineOptionModel;
 class ChessEngine;
+class QLineEdit;
 
 namespace Ui {
 	class EngineConfigurationDialog;
@@ -92,6 +93,11 @@ class EngineConfigurationDialog : public QDialog
 		void resizeColumns();
 
 	private:
+		void addPathRow(const QString& label, const QString& option,
+				bool directory, QLineEdit** edit);
+		void setOptionValue(const QString& option, const QString& value);
+		void syncPathRows();
+
 		bool m_hasError;
 		EngineOptionModel* m_engineOptionModel;
 		QString m_oldCommand;
@@ -102,6 +108,8 @@ class EngineConfigurationDialog : public QDialog
 		ChessEngine* m_engine;
 		Ui::EngineConfigurationDialog* ui;
 		QSet<QString> m_reservedNames;
+		QLineEdit* m_evalFileEdit;
+		QLineEdit* m_tbPathEdit;
 };
 
 #endif // ENGINECONFIGURATIONDIALOG_H

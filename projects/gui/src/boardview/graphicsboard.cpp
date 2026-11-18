@@ -71,7 +71,6 @@ GraphicsBoard::GraphicsBoard(int files,
 
 	m_rect.setSize(QSizeF(squareSize * files, squareSize * ranks));
 	m_rect.moveCenter(QPointF(0, 0));
-	m_textColor = QApplication::palette().text().color();
 
 	setCacheMode(DeviceCoordinateCache);
 }
@@ -126,9 +125,9 @@ void GraphicsBoard::paint(QPainter* painter,
 	}
 
 	auto font = painter->font();
-	font.setPointSizeF(font.pointSizeF() * 0.7);
+	font.setPixelSize(qMax(8, qRound(m_coordSize * 0.6)));
 	painter->setFont(font);
-	painter->setPen(m_textColor);
+	painter->setPen(QApplication::palette().text().color());
 
 	// paint file coordinates
 	const QString alphabet = "abcdefghijklmnopqrstuvwxyz";

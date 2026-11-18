@@ -85,10 +85,6 @@
        <property name="text">
         <string>Add</string>
        </property>
-       <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/toolbutton/add_16x16.png</normaloff>:/icons/toolbutton/add_16x16.png</iconset>
-       </property>
       </widget>
      </item>
      <item>
@@ -101,10 +97,6 @@
        </property>
        <property name="text">
         <string>Remove</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/toolbutton/remove_16x16.png</normaloff>:/icons/toolbutton/remove_16x16.png</iconset>
        </property>
       </widget>
      </item>
@@ -119,10 +111,6 @@
        <property name="text">
         <string>Configure</string>
        </property>
-       <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/toolbutton/configure_16x16.png</normaloff>:/icons/toolbutton/configure_16x16.png</iconset>
-       </property>
       </widget>
      </item>
      <item>
@@ -135,10 +123,6 @@
        </property>
        <property name="text">
         <string>Clone</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/toolbutton/clone_16x16.png</normaloff>:/icons/toolbutton/clone_16x16.png</iconset>
        </property>
       </widget>
      </item>

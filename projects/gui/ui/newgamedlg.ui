@@ -96,10 +96,6 @@
             <property name="text">
              <string/>
             </property>
-            <property name="icon">
-             <iconset resource="../res/icons/icons.qrc">
-              <normaloff>:/icons/toolbutton/configure_16x16.png</normaloff>:/icons/toolbutton/configure_16x16.png</iconset>
-            </property>
            </widget>
           </item>
          </layout>
@@ -183,10 +179,6 @@
             </property>
             <property name="text">
              <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../res/icons/icons.qrc">
-              <normaloff>:/icons/toolbutton/configure_16x16.png</normaloff>:/icons/toolbutton/configure_16x16.png</iconset>
             </property>
            </widget>
           </item>

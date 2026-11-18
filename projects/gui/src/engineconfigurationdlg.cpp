@@ -25,6 +25,9 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QSettings>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
 
 #include <enginefactory.h>
 #include <engineoption.h>
@@ -44,6 +47,8 @@ EngineConfigurationDialog::EngineConfigurationDialog(
           m_hasError(false),
 	  m_engineOptionModel(new EngineOptionModel(this)),
 	  m_engine(nullptr),
+	  m_evalFileEdit(nullptr),
+	  m_tbPathEdit(nullptr),
 	  ui(new Ui::EngineConfigurationDialog)
 {
 	ui->setupUi(this);
@@ -117,6 +122,9 @@ EngineConfigurationDialog::EngineConfigurationDialog(
 			ui->m_tscaleSpin->setStyleSheet("QDoubleSpinBox {color: #d0d0d0}");
 	});
 
+	addPathRow(tr("Net file (EvalFile):"), "EvalFile", false, &m_evalFileEdit);
+	addPathRow(tr("Endgame tables (TBPath):"), "TBPath", true, &m_tbPathEdit);
+
 	ui->m_tabs->setTabEnabled(1, false);
 	ui->m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
@@ -157,6 +165,7 @@ void EngineConfigurationDialog::applyEngineInformation(
 	m_oldCommand = engine.command();
 	m_oldPath = engine.workingDirectory();
 	m_oldProtocol = engine.protocol();
+	syncPathRows();
 }
 
 EngineConfiguration EngineConfigurationDialog::engineConfiguration()
@@ -270,6 +279,7 @@ void EngineConfigurationDialog::setExecutable(const QString& file)
 	}
 
 	ui->m_commandEdit->setText(QDir::toNativeSeparators(prefix + fileName));
+	QTimer::singleShot(0, this, &EngineConfigurationDialog::detectEngineOptions);
 }
 
 void EngineConfigurationDialog::browseWorkingDir()
@@ -355,6 +365,7 @@ void EngineConfigurationDialog::onEngineReady()
 
 	m_engineOptionModel->setOptions(m_options);
 	m_variants = m_engine->variants();
+	syncPathRows();
 
 	m_engine->quit();
 }
@@ -385,6 +396,8 @@ void EngineConfigurationDialog::onTabChanged(int index)
 {
 	if (index == 1)
 		detectEngineOptions();
+	else
+		syncPathRows();
 }
 
 void EngineConfigurationDialog::onNameOrCommandChanged()
@@ -428,4 +441,74 @@ void EngineConfigurationDialog::restoreDefaults()
 		option->setValue(option->defaultValue());
 
 	m_engineOptionModel->setOptions(m_options);
+	syncPathRows();
+}
+
+void EngineConfigurationDialog::addPathRow(const QString& label,
+					   const QString& option,
+					   bool directory,
+					   QLineEdit** edit)
+{
+	auto row = new QWidget(this);
+	auto layout = new QHBoxLayout(row);
+	layout->setContentsMargins(0, 0, 0, 0);
+	auto lineEdit = new QLineEdit(row);
+	auto browse = new QPushButton(tr("Browse..."), row);
+	layout->addWidget(lineEdit);
+	layout->addWidget(browse);
+	ui->formLayout->addRow(label, row);
+	ui->formLayout->setRowVisible(row, false);
+	*edit = lineEdit;
+
+	connect(lineEdit, &QLineEdit::textEdited, this, [=](const QString& text)
+	{
+		setOptionValue(option, text);
+	});
+	connect(browse, &QPushButton::clicked, this, [=]()
+	{
+		QString path = directory
+			? QFileDialog::getExistingDirectory(this, label, lineEdit->text())
+			: QFileDialog::getOpenFileName(this, label, lineEdit->text(),
+				tr("NNUE nets (*.nnue);;All Files (*.*)"));
+		if (path.isEmpty())
+			return;
+		path = QDir::toNativeSeparators(path);
+		lineEdit->setText(path);
+		setOptionValue(option, path);
+	});
+}
+
+void EngineConfigurationDialog::setOptionValue(const QString& option,
+					       const QString& value)
+{
+	for (EngineOption* opt : std::as_const(m_options))
+	{
+		if (opt->name() == option)
+		{
+			opt->setValue(value);
+			m_engineOptionModel->setOptions(m_options);
+			return;
+		}
+	}
+}
+
+void EngineConfigurationDialog::syncPathRows()
+{
+	const QList<QPair<QString, QLineEdit*>> rows = {
+		{"EvalFile", m_evalFileEdit}, {"TBPath", m_tbPathEdit} };
+	for (const auto& row : rows)
+	{
+		if (row.second == nullptr)
+			continue;
+		const EngineOption* found = nullptr;
+		for (const EngineOption* opt : std::as_const(m_options))
+		{
+			if (opt->name() == row.first)
+				found = opt;
+		}
+		ui->formLayout->setRowVisible(row.second->parentWidget(),
+					      found != nullptr);
+		if (found != nullptr)
+			row.second->setText(found->value().toString());
+	}
 }

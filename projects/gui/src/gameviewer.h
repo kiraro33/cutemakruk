@@ -24,8 +24,10 @@
 #include <QPointer>
 #include <board/side.h>
 #include <board/genericmove.h>
+#include <board/result.h>
 class QToolButton;
 class QSlider;
+class QLabel;
 class ChessGame;
 class PgnGame;
 class BoardScene;
@@ -75,11 +77,14 @@ class GameViewer : public QWidget
 		void viewLastMove();
 		void viewPosition(int index);
 		void autoFlip();
+		void updateStatus();
 
 		BoardScene* m_boardScene;
 		BoardView* m_boardView;
 		QSlider* m_moveNumberSlider;
 		ChessClock* m_chessClock[2];
+		QLabel* m_statusLabel;
+		Chess::Result m_result;
 
 		QToolButton* m_viewFirstMoveBtn;
 		QToolButton* m_viewPreviousMoveBtn;

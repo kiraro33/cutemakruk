@@ -4,7 +4,7 @@ Creative Commons Attribution-ShareAlike 4.0 International licence (CC BY-SA 4.0)
 https://creativecommons.org/licenses/by-sa/4.0/ .
 
 Changes for Cute Makruk: the White (*_w.svg) and Black (*_b.svg) files of khun, met, khon,
-rua, ma and bia were merged into one SVG file with tools/makruk/make_pieces.py; each piece is
+rua, ma, bia and biangai (promoted Bia) were merged into one SVG file with tools/makruk/make_pieces.py; each piece is
 a group named by its board symbol (K F E R N P, lower case for Black), the ids inside each
 file were prefixed, Inkscape editor metadata was removed, and an invisible frame was added
 around the Bia so that the GUI draws it smaller than the other pieces. The drawings are unchanged.

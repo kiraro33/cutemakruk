@@ -19,6 +19,8 @@
 #include "evalhistory.h"
 #include "board/board.h"
 #include <QVBoxLayout>
+#include <QStyleHints>
+#include <QTimer>
 #include <QtGlobal>
 #include <qcustomplot.h>
 #include <chessgame.h>
@@ -38,20 +40,28 @@ EvalHistory::EvalHistory(QWidget *parent)
 	x->setRange(1, 5);
 	x->setTicker(QSharedPointer<QCPAxisTicker>(ticker));
 	x->setSubTicks(false);
-	x->setLabelColor(QApplication::palette().text().color());
-	x->setTickLabelColor(QApplication::palette().text().color());
-	x->setTickPen(QApplication::palette().text().color());
-	x->setBasePen(QApplication::palette().text().color());
 
 	y->setLabel(tr("score"));
 	y->setRange(-1, 1);
 	y->setSubTicks(false);
-	y->setLabelColor(QApplication::palette().text().color());
-	y->setTickLabelColor(QApplication::palette().text().color());
-	y->setTickPen(QApplication::palette().text().color());
-	y->setBasePen(QApplication::palette().text().color());
 
-	m_plot->setBackground(QApplication::palette().window());
+	// colours follow the theme (View > Theme or the Windows setting)
+	auto applyColors = [this]()
+	{
+		const QColor text = QApplication::palette().text().color();
+		for (auto axis : {m_plot->xAxis, m_plot->yAxis})
+		{
+			axis->setLabelColor(text);
+			axis->setTickLabelColor(text);
+			axis->setTickPen(text);
+			axis->setBasePen(text);
+		}
+		m_plot->setBackground(QApplication::palette().window());
+		m_plot->replot();
+	};
+	applyColors();
+	connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,
+		this, [=]() { QTimer::singleShot(0, this, applyColors); });
 
 	QVBoxLayout* layout = new QVBoxLayout();
 	layout->addWidget(m_plot);

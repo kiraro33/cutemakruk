@@ -17,6 +17,7 @@
 */
 
 #include "pairtimecontroldlg.h"
+#include "themeicon.h"
 #include "ui_pairtimecontroldlg.h"
 
 PairTimeControlDialog::PairTimeControlDialog(const TimeControl& tc1, const TimeControl& tc2,
@@ -24,6 +25,7 @@ PairTimeControlDialog::PairTimeControlDialog(const TimeControl& tc1, const TimeC
     : QDialog(parent), ui(new Ui::PairTimeControlDialog)
 {
 	ui->setupUi(this);
+	setThemeIcon(ui->m_sameTc, "lock-open", "lock");
 
 	connect(ui->m_sameTc, &QToolButton::toggled, [=](bool checked)
 	{

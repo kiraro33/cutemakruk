@@ -17,12 +17,15 @@
 */
 
 #include "gameviewer.h"
+#include "themeicon.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QToolButton>
 #include <QSlider>
 #include <QMessageBox>
 #include <QSettings>
+#include <QLabel>
+#include <board/makrukboard.h>
 #include <pgngame.h>
 #include <chessgame.h>
 #include <chessplayer.h>
@@ -39,6 +42,7 @@ GameViewer::GameViewer(Qt::Orientation orientation,
 	  m_viewPreviousMoveBtn(new QToolButton),
 	  m_viewNextMoveBtn(new QToolButton),
 	  m_viewLastMoveBtn(new QToolButton),
+	  m_statusLabel(nullptr),
 	  m_moveIndex(0),
 	  m_humanGame(false)
 {
@@ -54,7 +58,7 @@ GameViewer::GameViewer(Qt::Orientation orientation,
 	m_viewFirstMoveBtn->setAutoRaise(true);
 	m_viewFirstMoveBtn->setMinimumSize(32, 32);
 	m_viewFirstMoveBtn->setToolTip(tr("Skip to the beginning"));
-	m_viewFirstMoveBtn->setIcon(QIcon(":/icons/toolbutton/first_16x16"));
+	setThemeIcon(m_viewFirstMoveBtn, "chevron-first");
 	connect(m_viewFirstMoveBtn, SIGNAL(clicked()),
 		this, SLOT(viewFirstMoveClicked()));
 
@@ -62,7 +66,7 @@ GameViewer::GameViewer(Qt::Orientation orientation,
 	m_viewPreviousMoveBtn->setAutoRaise(true);
 	m_viewPreviousMoveBtn->setMinimumSize(32, 32);
 	m_viewPreviousMoveBtn->setToolTip(tr("Previous move"));
-	m_viewPreviousMoveBtn->setIcon(QIcon(":/icons/toolbutton/previous_16x16"));
+	setThemeIcon(m_viewPreviousMoveBtn, "chevron-left");
 	connect(m_viewPreviousMoveBtn, SIGNAL(clicked()),
 		this, SLOT(viewPreviousMoveClicked()));
 
@@ -70,7 +74,7 @@ GameViewer::GameViewer(Qt::Orientation orientation,
 	m_viewNextMoveBtn->setAutoRaise(true);
 	m_viewNextMoveBtn->setMinimumSize(32, 32);
 	m_viewNextMoveBtn->setToolTip(tr("Next move"));
-	m_viewNextMoveBtn->setIcon(QIcon(":/icons/toolbutton/next_16x16"));
+	setThemeIcon(m_viewNextMoveBtn, "chevron-right");
 	connect(m_viewNextMoveBtn, SIGNAL(clicked()),
 		this, SLOT(viewNextMoveClicked()));
 
@@ -78,7 +82,7 @@ GameViewer::GameViewer(Qt::Orientation orientation,
 	m_viewLastMoveBtn->setAutoRaise(true);
 	m_viewLastMoveBtn->setMinimumSize(32, 32);
 	m_viewLastMoveBtn->setToolTip(tr("Skip to the end"));
-	m_viewLastMoveBtn->setIcon(QIcon(":/icons/toolbutton/last_16x16"));
+	setThemeIcon(m_viewLastMoveBtn, "chevron-last");
 	connect(m_viewLastMoveBtn, SIGNAL(clicked()),
 		this, SLOT(viewLastMoveClicked()));
 
@@ -110,6 +114,12 @@ GameViewer::GameViewer(Qt::Orientation orientation,
 		}
 		clockLayout->insertSpacing(1, 20);
 		layout->addLayout(clockLayout);
+
+		// Thai rules: the running count, or the result when the game is over
+		m_statusLabel = new QLabel();
+		m_statusLabel->setAlignment(Qt::AlignCenter);
+		m_statusLabel->setMinimumHeight(m_statusLabel->fontMetrics().height() + 8);
+		layout->addWidget(m_statusLabel);
 	}
 	else
 	{
@@ -171,6 +181,14 @@ void GameViewer::setGame(ChessGame* game)
 
 	connect(m_game, SIGNAL(finished(ChessGame*, Chess::Result)),
 		m_boardScene, SLOT(onGameFinished(ChessGame*, Chess::Result)));
+	connect(m_game, &ChessGame::finished, this,
+		[this](ChessGame*, const Chess::Result& result)
+	{
+		m_result = result;
+		updateStatus();
+	});
+	m_result = m_game->result();
+	updateStatus();
 	m_boardView->setEnabled(!m_game->isFinished() &&
 				m_game->playerToMove()->isHuman());
 	m_humanGame = !m_game.isNull()
@@ -214,7 +232,9 @@ void GameViewer::setGame(const PgnGame* pgn)
 	m_moveNumberSlider->setMaximum(m_moves.count());
 	m_moveNumberSlider->setValue(0);
 
+	m_result = pgn->result();
 	viewLastMove();
+	updateStatus();
 }
 
 void GameViewer::disconnectGame()
@@ -282,6 +302,7 @@ void GameViewer::viewPreviousMove()
 	m_boardView->setEnabled(false);
 
 	m_moveNumberSlider->setSliderPosition(m_moveIndex);
+	updateStatus();
 }
 
 void GameViewer::viewNextMoveClicked()
@@ -308,6 +329,7 @@ void GameViewer::viewNextMove()
 	}
 
 	m_moveNumberSlider->setSliderPosition(m_moveIndex);
+	updateStatus();
 }
 
 void GameViewer::viewLastMoveClicked()
@@ -374,6 +396,60 @@ void GameViewer::onFenChanged(const QString& fen)
 	m_moveNumberSlider->setMaximum(0);
 
 	m_boardScene->setFenString(fen);
+	m_result = Chess::Result();
+	updateStatus();
+}
+
+void GameViewer::updateStatus()
+{
+	if (m_statusLabel == nullptr)
+		return;
+
+	QString text;
+	QString color;
+	if (!m_result.isNone() && m_moveIndex >= m_moves.count())
+	{
+		// result texts come from the library in English (they also go to
+		// the PGN); show them translated
+		auto translated = [](const QString& s)
+		{
+			return QCoreApplication::translate("GameResult",
+							   s.toUtf8().constData());
+		};
+		QString reason = m_result.description();
+		QString thai = translated(reason);
+		// e.g. "Draw by adjudication: maximal game length"
+		int sep = reason.indexOf(": ");
+		if (thai == reason && sep > 0)
+			thai = translated(reason.left(sep)) + ": "
+			     + translated(reason.mid(sep + 2));
+		reason = thai;
+		text = reason.isEmpty() ? m_result.toShortString()
+					: QString("%1  %2").arg(m_result.toShortString(), reason);
+	}
+	else if (auto board = dynamic_cast<Chess::MakrukBoard*>(this->board()))
+	{
+		const auto info = board->thaiCountInfo();
+		if (info.type != 0)
+		{
+			const QString side = info.side == Chess::Side::White
+					     ? tr("White") : tr("Black");
+			text = (info.type == 1
+				? tr("Board's honour counting (%1 counts): %2 / %3")
+				: tr("Pieces' honour counting (%1 counts): %2 / %3"))
+				.arg(side).arg(info.count).arg(info.limit);
+			int left = info.limit - info.count;
+			if (left <= 3)
+				color = "#d9534f";
+			else if (left <= 8)
+				color = "#e8a33d";
+		}
+	}
+
+	m_statusLabel->setText(text);
+	m_statusLabel->setStyleSheet(color.isEmpty()
+		? QString("QLabel { font-weight: bold; }")
+		: QString("QLabel { font-weight: bold; color: %1; }").arg(color));
 }
 
 void GameViewer::onMoveMade(const Chess::GenericMove& move)

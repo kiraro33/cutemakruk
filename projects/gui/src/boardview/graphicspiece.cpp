@@ -73,6 +73,14 @@ void GraphicsPiece::paint(QPainter* painter,
 	m_renderer->render(painter, m_elementId, bounds);
 }
 
+void GraphicsPiece::setElementId(const QString& elementId)
+{
+	if (elementId == m_elementId)
+		return;
+	m_elementId = elementId;
+	update();
+}
+
 Chess::Piece GraphicsPiece::pieceType() const
 {
 	return m_piece;

@@ -17,6 +17,7 @@
 */
 
 #include "enginemanagementwidget.h"
+#include "themeicon.h"
 #include "ui_enginemanagementwidget.h"
 
 #include <QSortFilterProxyModel>
@@ -39,6 +40,10 @@ EngineManagementWidget::EngineManagementWidget(QWidget* parent)
 	  ui(new Ui::EngineManagementWidget)
 {
 	ui->setupUi(this);
+	setThemeIcon(ui->m_addBtn, "plus");
+	setThemeIcon(ui->m_removeBtn, "minus");
+	setThemeIcon(ui->m_configureBtn, "settings");
+	setThemeIcon(ui->m_cloneBtn, "copy");
 
 	// Set up a filtered model
 	m_filteredModel->setSourceModel(new EngineConfigurationModel(

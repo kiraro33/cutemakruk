@@ -16,6 +16,7 @@
 */
 
 #include "newtournamentdialog.h"
+#include "themeicon.h"
 #include "ui_newtournamentdlg.h"
 
 #include <QFileDialog>
@@ -49,6 +50,13 @@ NewTournamentDialog::NewTournamentDialog(EngineManager* engineManager,
 {
 	Q_ASSERT(engineManager != nullptr);
 	ui->setupUi(this);
+	setThemeIcon(ui->m_addEngineBtn, "plus");
+	setThemeIcon(ui->m_removeEngineBtn, "minus");
+	setThemeIcon(ui->m_configureEngineBtn, "settings");
+	ui->m_moveEngineUpBtn->setArrowType(Qt::NoArrow);
+	setThemeIcon(ui->m_moveEngineUpBtn, "chevron-up");
+	ui->m_moveEngineDownBtn->setArrowType(Qt::NoArrow);
+	setThemeIcon(ui->m_moveEngineDownBtn, "chevron-down");
 
 	m_srcEnginesModel = new EngineConfigurationModel(engineManager, this);
 	#if 0

@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/lucide">
+	<file alias="chevron-down.svg">lucide/chevron-down.svg</file>
+	<file alias="chevron-first.svg">lucide/chevron-first.svg</file>
+	<file alias="chevron-last.svg">lucide/chevron-last.svg</file>
+	<file alias="chevron-left.svg">lucide/chevron-left.svg</file>
+	<file alias="chevron-right.svg">lucide/chevron-right.svg</file>
+	<file alias="chevron-up.svg">lucide/chevron-up.svg</file>
+	<file alias="copy.svg">lucide/copy.svg</file>
+	<file alias="lock-open.svg">lucide/lock-open.svg</file>
+	<file alias="lock.svg">lucide/lock.svg</file>
+	<file alias="minus.svg">lucide/minus.svg</file>
+	<file alias="plus.svg">lucide/plus.svg</file>
+	<file alias="settings.svg">lucide/settings.svg</file>
+</qresource>
+</RCC>

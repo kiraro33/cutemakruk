@@ -65,6 +65,8 @@ class GraphicsPiece : public QGraphicsObject
 
 		/*! Returns the type of the chess piece. */
 		Chess::Piece pieceType() const;
+		/*! Draws the piece with another SVG element (e.g. a promoted Bia). */
+		void setElementId(const QString& elementId);
 		/*!
 		 * Returns the container of the piece.
 		 *

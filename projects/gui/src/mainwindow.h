@@ -109,7 +109,9 @@ class MainWindow : public QMainWindow
 		void createToolBars();
 		void createDockWindows();
 		void readSettings();
+		void applyDefaultLayout();
 		void writeSettings();
+		QByteArray m_defaultLayout;
 		QString genericTitle(const TabData& gameData) const;
 		QString nameOnClock(const QString& name, Chess::Side side) const;
 		void lockCurrentGame();

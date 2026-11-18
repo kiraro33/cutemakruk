@@ -25,8 +25,8 @@ move	ตา
 score	คะแนน
 NPS	NPS
 Hash	Hash
-Pondermove	ตาที่คิดล่วงหน้า
-Ponderhit	คิดล่วงหน้าถูก
+Pondermove	คาดเดา
+Ponderhit	เดาถูก
 TB	TB
 Depth	ความลึก
 Time	เวลา
@@ -143,7 +143,6 @@ Makruk piece images	ภาพตัวหมากรุกไทย
 By Ada Joule (Fulmene), licensed under Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0). Changes: the piece files were merged into one SVG file and their ids renamed.	ผลงานของ Ada Joule (Fulmene) ภายใต้สัญญาอนุญาต Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0) ส่วนที่แก้ไข: รวมไฟล์ตัวหมากเป็นไฟล์ SVG ไฟล์เดียวและเปลี่ยนชื่อ id
 The Qt Company and contributors, used under the GNU LGPL version 3.	The Qt Company และผู้ร่วมพัฒนา ใช้ภายใต้สัญญาอนุญาต GNU LGPL รุ่นที่ 3
 Icons	ไอคอน
-Toolbar icons from Cute Chess.	ไอคอนแถบเครื่องมือจาก Cute Chess
 Cute Makruk is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.	Cute Makruk เป็นซอฟต์แวร์เสรี คุณสามารถแจกจ่ายต่อและ/หรือแก้ไขได้ภายใต้เงื่อนไขของ GNU General Public License ที่เผยแพร่โดย Free Software Foundation รุ่นที่ 3 หรือรุ่นที่ใหม่กว่า (ตามที่คุณเลือก)
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.	โปรแกรมนี้เผยแพร่โดยหวังว่าจะเป็นประโยชน์ แต่ไม่มีการรับประกันใด ๆ ทั้งสิ้น แม้แต่การรับประกันโดยนัยว่าเหมาะสมเชิงพาณิชย์หรือเหมาะกับวัตถุประสงค์ใดโดยเฉพาะ ดูรายละเอียดใน GNU General Public License
 The Makruk piece images are licensed under CC BY-SA 4.0.	ภาพตัวหมากรุกไทยใช้สัญญาอนุญาต CC BY-SA 4.0
@@ -338,7 +337,7 @@ Infinite thinking time	คิดได้ไม่จำกัดเวลา
 Infinite	ไม่จำกัด
 Time used is added to opponent's available time	เวลาที่ใช้ไปจะเพิ่มให้คู่แข่ง
 Hourglass	นาฬิกาทราย
-Mo&ves:	จำนวนตา (&V):
+Mo&ves:	ตาต่อช่วงเวลา (&V):
 The number of moves in a time control	จำนวนตาในหนึ่งช่วงเวลา
 Whole game	ทั้งเกม
 Time:	เวลา:
@@ -426,3 +425,62 @@ Check for Updates	ตรวจหาเวอร์ชันใหม่
 Could not check for updates: %1	ตรวจหาเวอร์ชันใหม่ไม่ได้: %1
 You have the latest version (%1).	คุณใช้เวอร์ชันล่าสุดแล้ว (%1)
 Cute Makruk %1 is available. You have %2.\n\nOpen the download page?	มี Cute Makruk %1 แล้ว คุณใช้ %2 อยู่\n\nเปิดหน้าดาวน์โหลดหรือไม่
+# Cute Makruk 1.1: new GUI texts
+&New Tournament...	การแข่งขันใหม่ (&N)...
+Add Engine...	เพิ่มเอนจิน...
+Net file (EvalFile):	ไฟล์ net (EvalFile):
+Endgame tables (TBPath):	ตารางหมากจบ (TBPath):
+NNUE nets (*.nnue);;All Files (*.*)	ไฟล์ net NNUE (*.nnue);;ทุกไฟล์ (*.*)
+Reset Window Layout	จัดหน้าต่างใหม่
+Show Evaluations and Comments	แสดงคะแนนและความเห็น
+Board's honour counting (%1 counts): %2 / %3	นับศักดิ์กระดาน (%1นับ): %2 / %3
+Pieces' honour counting (%1 counts): %2 / %3	นับศักดิ์หมาก (%1นับ): %2 / %3
+# Game results as the library writes them (shown translated; PGN files keep English)
+Draw by stalemate	เสมอ: อับ
+Draw by bare khuns	เสมอ: ขุนต่อขุน
+Draw by board's honour counting	เสมอ: นับศักดิ์กระดานครบ
+Draw by pieces' honour counting	เสมอ: นับศักดิ์หมากครบ
+Draw by 3-fold repetition	เสมอ: ตำแหน่งซ้ำ 3 ครั้ง
+Draw by timeout	เสมอ: หมดเวลา
+Draw by adjudication	เสมอโดยการตัดสิน
+Draw by disconnection	เสมอ: หลุดการเชื่อมต่อ
+Draw by stalled connection	เสมอ: การเชื่อมต่อค้าง
+Draw by agreement	เสมอโดยตกลงกัน
+Drawn game	เสมอ
+No result	ไม่มีผล
+Result error	ผลผิดพลาด
+maximal game length	ครบความยาวเกมที่กำหนด
+trusted mate score	คะแนนรุกจนที่เชื่อถือได้
+White mates	ขาวรุกจน
+White resigns	ขาวยอมแพ้
+White loses on time	ขาวหมดเวลา
+White wins by adjudication	ขาวชนะโดยการตัดสิน
+White makes an illegal move	ขาวเดินผิดกติกา
+White disconnects	ขาวหลุดการเชื่อมต่อ
+White's connection stalls	การเชื่อมต่อของขาวค้าง
+White wins by agreement	ขาวชนะโดยตกลงกัน
+Black mates	ดำรุกจน
+Black resigns	ดำยอมแพ้
+Black loses on time	ดำหมดเวลา
+Black wins by adjudication	ดำชนะโดยการตัดสิน
+Black makes an illegal move	ดำเดินผิดกติกา
+Black disconnects	ดำหลุดการเชื่อมต่อ
+Black's connection stalls	การเชื่อมต่อของดำค้าง
+Black wins by agreement	ดำชนะโดยตกลงกัน
+# Time control summary (TimeControl::toVerboseString)
+%1 moves in %2	%1 ตาใน %2
+%1 per move	%1 ต่อตา
+%1 h	%1 ชม.
+%1 min	%1 นาที
+%1 sec	%1 วินาที
+, %1 increment	, เพิ่มตาละ %1
+, %1 msec margin	, เผื่อ %1 ms
+, %1 nodes	, %1 โหนด
+, %1 plies	, %1 ครึ่งตา
+infinite time	ไม่จำกัดเวลา
+hourglass %1	นาฬิกาทราย %1
+Button icons: Lucide (lucide.dev), ISC licence.	ไอคอนปุ่ม: Lucide (lucide.dev) สัญญาอนุญาต ISC
+Theme	ธีม
+Follow Windows	ตาม Windows
+Light	สว่าง
+Dark	มืด

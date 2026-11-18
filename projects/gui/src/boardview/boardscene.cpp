@@ -25,6 +25,10 @@
 #include <QGraphicsPolygonItem>
 #include <QGraphicsTextItem>
 #include <QSettings>
+#include <QGuiApplication>
+#include <QStyleHints>
+#include <QTimer>
+#include <board/makrukboard.h>
 #include <algorithm>
 #include <board/board.h>
 #include "graphicsboard.h"
@@ -50,6 +54,17 @@ BoardScene::BoardScene(QObject* parent)
 	  m_highlightPiece(nullptr),
 	  m_moveArrows(nullptr)
 {
+	// the coordinates use the theme's text colour: redraw when it changes
+	connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,
+		this, [this]()
+	{
+		QTimer::singleShot(0, this, [this]()
+		{
+			if (m_squares != nullptr)
+				m_squares->update();
+			update();
+		});
+	});
 }
 
 BoardScene::~BoardScene()
@@ -129,6 +144,7 @@ void BoardScene::populate()
 		}
 	}
 
+	refreshPromotedPieces();
 	updateMoves();
 }
 
@@ -335,7 +351,30 @@ void BoardScene::onTransitionFinished()
 	}
 
 	m_transition.clear();
+	refreshPromotedPieces();
 	updateMoves();
+}
+
+void BoardScene::refreshPromotedPieces()
+{
+	auto board = dynamic_cast<Chess::MakrukBoard*>(m_board);
+	if (board == nullptr || m_squares == nullptr)
+		return;
+
+	for (int x = 0; x < m_board->width(); x++)
+	{
+		for (int y = 0; y < m_board->height(); y++)
+		{
+			Chess::Square sq(x, y);
+			GraphicsPiece* piece = m_squares->pieceAt(sq);
+			if (piece == nullptr)
+				continue;
+			QString id = m_board->representation(piece->pieceType());
+			if (board->isPromotedAt(sq))
+				id = id == id.toUpper() ? "B" : "b";
+			piece->setElementId(id);
+		}
+	}
 }
 
 void BoardScene::onPromotionChosen(const Chess::Piece& promotion)

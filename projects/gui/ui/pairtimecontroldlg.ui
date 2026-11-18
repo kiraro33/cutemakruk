@@ -27,11 +27,6 @@
        <property name="toolTip">
         <string>Link/unlink white's and black's time controls</string>
        </property>
-       <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/toolbutton/lock-open.svg</normaloff>
-         <normalon>:/icons/toolbutton/lock-closed.svg</normalon>:/icons/toolbutton/lock-open.svg</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>24</width>

@@ -20,6 +20,8 @@
 #include "ui_gamesettingswidget.h"
 #include <QFileDialog>
 #include <QSettings>
+#include <QToolButton>
+#include <QTimer>
 
 #include <board/boardfactory.h>
 #include <engineconfiguration.h>
@@ -42,13 +44,46 @@ GameSettingsWidget::GameSettingsWidget(QWidget* parent)
 		this, SIGNAL(variantChanged(QString)));
 	int index = ui->m_variantCombo->findText("makruk");
 	ui->m_variantCombo->setCurrentIndex(index);
+	// Cute Makruk has one variant: no need to show the choice
+	ui->m_variantCombo->hide();
+	ui->m_variantLabel->hide();
+
+	// openings, books, adjudication and game length are folded away
+	auto advancedBtn = new QToolButton(this);
+	advancedBtn->setText(tr("Advanced"));
+	advancedBtn->setCheckable(true);
+	advancedBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+	advancedBtn->setAutoRaise(true);
+	ui->verticalLayout->insertWidget(1, advancedBtn);
+	const QList<QWidget*> advanced = {
+		ui->groupBox_3, ui->m_openingBookGroup,
+		ui->m_drawAdjudicationGroup, ui->m_resignAdjudicationGroup,
+		ui->m_gameLengthGroup
+	};
+	auto showAdvanced = [=](bool show)
+	{
+		advancedBtn->setArrowType(show ? Qt::DownArrow : Qt::RightArrow);
+		for (QWidget* w : advanced)
+			w->setVisible(show);
+		QSettings().setValue("ui/game_settings_advanced", show);
+		QTimer::singleShot(0, this, [this]()
+		{
+			if (window() != this)
+				window()->adjustSize();
+		});
+	};
+	connect(advancedBtn, &QToolButton::toggled, this, showAdvanced);
+	bool showAdv = QSettings().value("ui/game_settings_advanced", false).toBool();
+	advancedBtn->setChecked(showAdv);
+	showAdvanced(showAdv);
 
 	connect(ui->m_timeControlBtn, SIGNAL(clicked()),
 		this, SLOT(showTimeControlDialog()));
 	for (auto& tc : m_timeControl)
 	{
-		tc.setMovesPerTc(40);
-		tc.setTimePerTc(300000);
+		tc.setMovesPerTc(0);
+		tc.setTimePerTc(180000);
+		tc.setTimeIncrement(3000);
 	}
 
 	ui->m_timeControlBtn->setText(timeControlText());
@@ -111,6 +146,15 @@ GameSettingsWidget::GameSettingsWidget(QWidget* parent)
 	});
 
 	readSettings();
+
+	// a saved FEN, opening, book or limit still applies: never hide it
+	if (!ui->m_fenEdit->text().isEmpty()
+	||  !ui->m_openingSuiteEdit->text().isEmpty()
+	||  !ui->m_polyglotFileEdit->text().isEmpty()
+	||  ui->m_drawMoveNumberSpin->value() > 0
+	||  ui->m_resignMoveCountSpin->value() > 0
+	||  ui->m_maxGameLengthSpin->value() > 0)
+		advancedBtn->setChecked(true);
 }
 
 GameSettingsWidget::~GameSettingsWidget()
@@ -241,6 +285,27 @@ void GameSettingsWidget::readSettings()
 	s.beginGroup("second_time_control");
 	m_timeControl[Chess::Side::Black].readSettings(&s);
 	s.endGroup(); // "second_time_control"
+
+	// Cute Makruk: the old cutechess default (40 moves in 5 min) becomes
+	// 3 min + 3 s per move, once
+	if (!s.value("tc_default_3_3", false).toBool())
+	{
+		for (auto& tc : m_timeControl)
+		{
+			if (tc.movesPerTc() == 40 && tc.timePerTc() == 300000
+			&&  tc.timeIncrement() == 0)
+			{
+				tc.setMovesPerTc(0);
+				tc.setTimePerTc(180000);
+				tc.setTimeIncrement(3000);
+			}
+		}
+		m_timeControl[Chess::Side::White].writeSettings(&s);
+		s.beginGroup("second_time_control");
+		m_timeControl[Chess::Side::Black].writeSettings(&s);
+		s.endGroup();
+		s.setValue("tc_default_3_3", true);
+	}
 
 	updateButtonText();
 

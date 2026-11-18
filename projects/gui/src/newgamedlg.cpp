@@ -17,9 +17,11 @@
 */
 
 #include "newgamedlg.h"
+#include "themeicon.h"
 #include "ui_newgamedlg.h"
 
 #include <QAbstractItemView>
+#include <QPushButton>
 #include <QSettings>
 
 #include <board/boardfactory.h>
@@ -46,6 +48,8 @@ NewGameDialog::NewGameDialog(EngineManager* engineManager, QWidget* parent)
 {
 	Q_ASSERT(engineManager != nullptr);
 	ui->setupUi(this);
+	setThemeIcon(ui->m_configureWhiteEngineButton, "settings");
+	setThemeIcon(ui->m_configureBlackEngineButton, "settings");
 	ui->m_gameSettings->enableSplitTimeControls(true);
 
 	m_engines = new EngineConfigurationModel(m_engineManager, this);
@@ -95,6 +99,37 @@ NewGameDialog::NewGameDialog(EngineManager* engineManager, QWidget* parent)
 	connect(ui->m_gameSettings, &GameSettingsWidget::statusChanged, [=](bool ok)
 	{
 		ui->m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ok);
+	});
+
+	// add an engine without going through Tools > Settings first
+	QPushButton* addEngineBtn = ui->m_buttonBox->addButton(
+		tr("Add Engine..."), QDialogButtonBox::ActionRole);
+	connect(addEngineBtn, &QPushButton::clicked, this, [=]()
+	{
+		auto dlg = new EngineConfigurationDialog(
+			EngineConfigurationDialog::AddEngine, this);
+		dlg->setAttribute(Qt::WA_DeleteOnClose);
+		dlg->setReservedNames(m_engineManager->engineNames());
+		connect(dlg, &EngineConfigurationDialog::accepted, this, [=]()
+		{
+			const EngineConfiguration config = dlg->engineConfiguration();
+			m_engineManager->addEngine(config);
+			m_engineManager->saveEngines(
+				CuteChessApplication::instance()->configPath()
+				+ QLatin1String("/engines.json"));
+			onVariantChanged(ui->m_gameSettings->chessVariant());
+
+			// play the new engine on a side that has no engine yet
+			Chess::Side side = playerType(Chess::Side::White) == CPU
+					   ? Chess::Side::Black : Chess::Side::White;
+			auto combo = side == Chess::Side::White
+				     ? ui->m_whiteEngineComboBox
+				     : ui->m_blackEngineComboBox;
+			(side == Chess::Side::White ? ui->m_whitePlayerCpuRadio
+						    : ui->m_blackPlayerCpuRadio)->setChecked(true);
+			combo->setCurrentIndex(combo->findText(config.name()));
+		});
+		dlg->open();
 	});
 }
 

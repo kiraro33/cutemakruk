@@ -73,7 +73,7 @@ inline void rotateAndStoreOffsets(QVarLengthArray<int> a[2])
 
 void MakrukBoard::initHistory()
 {
-	MoveData md {false, 0, 0, 0, {}, {}};
+	MoveData md {false, 0, 0, 0, {}, {}, 0};
 	m_history.clear();
 	m_history.append(md);
 }
@@ -179,6 +179,19 @@ void MakrukBoard::vMakeMove(const Move& move, BoardTransition* transition)
 
 	m_history.append(m_history.last());
 	MoveData& md = m_history.last();
+
+	// display only: follow promoted Bias (they are Mets for the rules)
+	if (width() == 8 && height() == 8)
+	{
+		const Square src = chessSquare(move.sourceSquare());
+		const Square dst = chessSquare(move.targetSquare());
+		const quint64 srcBit = 1ULL << (src.file() + 8 * src.rank());
+		const quint64 dstBit = 1ULL << (dst.file() + 8 * dst.rank());
+		const bool wasPromoted = (md.promoted & srcBit) != 0;
+		md.promoted &= ~(srcBit | dstBit);
+		if (wasPromoted || move.promotion() != Piece::NoPiece)
+			md.promoted |= dstBit;
+	}
 
 	md.totalPlies++;
 	if (md.countingLimit > 0)
@@ -713,6 +726,27 @@ QString MakrukBoard::thaiCountingString() const
 		.arg(td.type == BoardCount ? "board" : "pieces")
 		.arg(Side(Side::Type(td.side)).symbol())
 		.arg(td.limit).arg(next);
+}
+
+MakrukBoard::ThaiCountInfo MakrukBoard::thaiCountInfo() const
+{
+	ThaiCountInfo info {0, Side::NoSide, 0, 0};
+	if (!m_thai)
+		return info;
+	const ThaiData& td = m_history.last().thai;
+	if (td.type == BoardCount)
+		info = {1, Side(Side::Type(td.side)), td.ply / 2, 64};
+	else if (td.type == PiecesCount)
+		info = {2, Side(Side::Type(td.side)), td.next - 1, td.limit};
+	return info;
+}
+
+bool MakrukBoard::isPromotedAt(const Square& square) const
+{
+	if (!square.isValid() || square.file() >= 8 || square.rank() >= 8)
+		return false;
+	return (m_history.last().promoted
+		& (1ULL << (square.file() + 8 * square.rank()))) != 0;
 }
 
 Result MakrukBoard::thaiResult()

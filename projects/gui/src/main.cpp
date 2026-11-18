@@ -28,6 +28,7 @@
 #include <QHash>
 #include <QSet>
 #include <QSettings>
+#include <QStyleHints>
 
 #include <board/genericmove.h>
 #include <board/move.h>
@@ -76,7 +77,7 @@ class TableTranslator : public QTranslator
 			Q_UNUSED(disambiguation);
 			Q_UNUSED(n);
 			static const QSet<QString> libContexts = {
-				"Board", "Result", "Side", "EngineBuilder", "TimeControl",
+				"Board", "Result", "Side", "EngineBuilder",
 				"ChessEngine", "ChessGame", "ChessPlayer", "EngineManager",
 				"EngineOption", "EngineProcess", "GameInitializer",
 				"GameManager", "GameThread", "GauntletTournament",
@@ -141,6 +142,13 @@ int main(int argc, char* argv[])
 	TableTranslator translator;
 	if (lang != "en" && translator.loadTable(":/i18n/" + lang + ".tsv"))
 		app.installTranslator(&translator);
+
+	// View > Theme: dark (default), light or follow Windows
+	const QString theme = QSettings().value("ui/theme", "dark").toString();
+	if (theme == "light")
+		QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
+	else if (theme == "dark")
+		QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Dark);
 
 	// Use trivial command-line parsing for now
 	QTextStream out(stdout);

@@ -2,7 +2,7 @@
 <!-- Makruk pieces by Ada Joule (github.com/Fulmene/makruk-pieces-image), CC BY-SA 4.0,
      https://creativecommons.org/licenses/by-sa/4.0/ . Merged into one file for cutemakruk
      by tools/makruk/make_pieces.py (ids renamed, editor metadata removed). -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="720" height="240" viewBox="0 0 720 240">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="840" height="240" viewBox="0 0 840 240">
 <title>Makruk pieces (Fulmene)</title>
 <g id="K" transform="translate(0,0)">
   <defs
@@ -1471,6 +1471,157 @@
       
       
        d="M 37.041667,249.37497 A 10.583333,10.583333 0 0 1 47.624308,238.79164 10.583333,10.583333 0 0 1 58.208333,249.37358 10.583333,10.583333 0 0 1 47.627078,259.9583 10.583333,10.583333 0 0 1 37.041667,249.37774" />
+  </g>
+</g>
+<g id="B" transform="translate(720,0)">
+  <defs
+     id="biangaiw_defs2">
+    <linearGradient
+       id="biangaiw_linearGradient1484"
+      >
+      <stop
+         id="biangaiw_stop1480"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1" />
+      <stop
+         style="stop-color:#fff6d5;stop-opacity:1"
+         offset="0.53125006"
+         id="biangaiw_stop1486" />
+      <stop
+         id="biangaiw_stop1482"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+      
+       id="biangaiw_linearGradient1474">
+      <stop
+         style="stop-color:#fff6d5;stop-opacity:1"
+         offset="0"
+         id="biangaiw_stop1470" />
+      <stop
+         style="stop-color:#554400;stop-opacity:1"
+         offset="1"
+         id="biangaiw_stop1472" />
+    </linearGradient>
+    <radialGradient
+      
+       xlink:href="#biangaiw_linearGradient1474"
+       id="biangaiw_radialGradient1476"
+       cx="47.625"
+       cy="249.37497"
+       fx="47.625"
+       fy="249.37497"
+       r="19.579167"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-2.0025334e-4,-3.5135125,3.5135141,-4.751198e-7,-828.54793,416.70611)" />
+    <radialGradient
+      
+       xlink:href="#biangaiw_linearGradient1484"
+       id="biangaiw_radialGradient1478"
+       cx="47.625"
+       cy="249.37497"
+       fx="47.625"
+       fy="249.37497"
+       r="27.516665"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.6398958e-6,-1.5384617,1.5384618,-3.634101e-8,-336.02894,322.64422)" />
+    <filter
+       style="color-interpolation-filters:sRGB;"
+      
+       id="biangaiw_filter14116">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="biangaiw_feFlood14106" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="biangaiw_feComposite14108" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1"
+         result="blur"
+         id="biangaiw_feGaussianBlur14110" />
+      <feOffset
+         dx="1.5"
+         dy="1.5"
+         result="offset"
+         id="biangaiw_feOffset14112" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="biangaiw_feComposite14114" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+      
+       id="biangaiw_filter14404">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="biangaiw_feFlood14394" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="biangaiw_feComposite14396" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3"
+         result="blur"
+         id="biangaiw_feGaussianBlur14398" />
+      <feOffset
+         dx="1.5"
+         dy="1.5"
+         result="offset"
+         id="biangaiw_feOffset14400" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="composite2"
+         id="biangaiw_feComposite14402" />
+    </filter>
+  </defs>
+  
+  
+  <g
+    
+    
+     id="biangaiw_layer1"
+     transform="translate(0,-201.74997)">
+    <path
+       style="fill:url(#biangaiw_radialGradient1478);stroke:#000000;stroke-width:2.11666667;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#biangaiw_filter14116)"
+       id="biangaiw_path4194"
+      
+      
+      
+      
+      
+      
+      
+      
+       d="M 21.166668,249.37497 A 26.458332,26.458332 0 0 1 47.62327,222.91664 26.458332,26.458332 0 0 1 74.083332,249.37151 26.458332,26.458332 0 0 1 47.630194,275.8333 26.458332,26.458332 0 0 1 21.166669,249.3819" />
+    <path
+       style="fill:url(#biangaiw_radialGradient1476);stroke:#000000;stroke-width:2.11666667;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#biangaiw_filter14404)"
+       id="biangaiw_path5378"
+      
+      
+      
+      
+      
+      
+      
+      
+       d="M 29.104166,249.37497 A 18.520834,18.520834 0 0 1 47.623789,230.85414 18.520834,18.520834 0 0 1 66.145834,249.37255 18.520834,18.520834 0 0 1 47.628636,267.8958 18.520834,18.520834 0 0 1 29.104167,249.37982" />
   </g>
 </g>
 <g id="k" transform="translate(0,120)">
@@ -2953,6 +3104,157 @@
       
       
        d="M 37.041667,249.37497 A 10.583333,10.583333 0 0 1 47.624308,238.79164 10.583333,10.583333 0 0 1 58.208333,249.37358 10.583333,10.583333 0 0 1 47.627078,259.9583 10.583333,10.583333 0 0 1 37.041667,249.37774" />
+  </g>
+</g>
+<g id="b" transform="translate(720,120)">
+  <defs
+     id="biangaib_defs2">
+    <linearGradient
+       id="biangaib_linearGradient1484"
+      >
+      <stop
+         id="biangaib_stop1480"
+         offset="0"
+         style="stop-color:#999999;stop-opacity:1" />
+      <stop
+         style="stop-color:#4d4d4d;stop-opacity:1"
+         offset="0.53125006"
+         id="biangaib_stop1486" />
+      <stop
+         id="biangaib_stop1482"
+         offset="1"
+         style="stop-color:#999999;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+      
+       id="biangaib_linearGradient1474">
+      <stop
+         style="stop-color:#4d4d4d;stop-opacity:1"
+         offset="0"
+         id="biangaib_stop1470" />
+      <stop
+         style="stop-color:#1a1a1a;stop-opacity:1"
+         offset="1"
+         id="biangaib_stop1472" />
+    </linearGradient>
+    <radialGradient
+      
+       xlink:href="#biangaib_linearGradient1474"
+       id="biangaib_radialGradient1476"
+       cx="47.625"
+       cy="249.37497"
+       fx="47.625"
+       fy="249.37497"
+       r="19.579167"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-2.0025334e-4,-3.5135125,3.5135141,-4.751198e-7,-828.54793,416.70611)" />
+    <radialGradient
+      
+       xlink:href="#biangaib_linearGradient1484"
+       id="biangaib_radialGradient1478"
+       cx="47.625"
+       cy="249.37497"
+       fx="47.625"
+       fy="249.37497"
+       r="27.516665"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.6398958e-6,-1.5384617,1.5384618,-3.634101e-8,-336.02894,322.64422)" />
+    <filter
+       style="color-interpolation-filters:sRGB;"
+      
+       id="biangaib_filter888">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="biangaib_feFlood878" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="biangaib_feComposite880" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3"
+         result="blur"
+         id="biangaib_feGaussianBlur882" />
+      <feOffset
+         dx="1.5"
+         dy="1.5"
+         result="offset"
+         id="biangaib_feOffset884" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="composite2"
+         id="biangaib_feComposite886" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+      
+       id="biangaib_filter924">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="biangaib_feFlood914" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="biangaib_feComposite916" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1"
+         result="blur"
+         id="biangaib_feGaussianBlur918" />
+      <feOffset
+         dx="1.5"
+         dy="1.5"
+         result="offset"
+         id="biangaib_feOffset920" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="biangaib_feComposite922" />
+    </filter>
+  </defs>
+  
+  
+  <g
+    
+    
+     id="biangaib_layer1"
+     transform="translate(0,-201.74997)">
+    <path
+       style="fill:url(#biangaib_radialGradient1478);stroke:#000000;stroke-width:2.11666667;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#biangaib_filter924)"
+       id="biangaib_path4194"
+      
+      
+      
+      
+      
+      
+      
+      
+       d="M 21.166668,249.37497 A 26.458332,26.458332 0 0 1 47.62327,222.91664 26.458332,26.458332 0 0 1 74.083332,249.37151 26.458332,26.458332 0 0 1 47.630194,275.8333 26.458332,26.458332 0 0 1 21.166669,249.3819" />
+    <path
+       style="fill:url(#biangaib_radialGradient1476);stroke:#000000;stroke-width:2.11666667;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1;filter:url(#biangaib_filter888)"
+       id="biangaib_path5378"
+      
+      
+      
+      
+      
+      
+      
+      
+       d="M 29.104166,249.37497 A 18.520834,18.520834 0 0 1 47.623789,230.85414 18.520834,18.520834 0 0 1 66.145834,249.37255 18.520834,18.520834 0 0 1 47.628636,267.8958 18.520834,18.520834 0 0 1 29.104167,249.37982" />
   </g>
 </g>
 </svg>

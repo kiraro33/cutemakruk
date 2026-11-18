@@ -82,6 +82,11 @@ static int posMode()
 			const auto moves = parts.at(1).split(' ', Qt::SkipEmptyParts);
 			for (const auto& mv : moves)
 			{
+				if (mv == "undo")	// takes back the last move
+				{
+					board->undoMove();
+					continue;
+				}
 				Chess::Move m = findMove(board.get(), mv);
 				if (m.isNull())
 				{
@@ -102,11 +107,24 @@ static int posMode()
 			legal << lan(board.get(), m);
 		legal.sort();
 		Chess::Result r = board->result();
+		// what the GUI shows: promoted Bias and the running count
+		auto mb = static_cast<Chess::MakrukBoard*>(board.get());
+		QStringList promoted;
+		for (int y = 0; y < 8; y++)
+			for (int x = 0; x < 8; x++)
+				if (mb->isPromotedAt(Chess::Square(x, y)))
+					promoted << QString("%1%2").arg(QChar('a' + x)).arg(y + 1);
+		const auto ci = mb->thaiCountInfo();
+		const QString display = ci.type == 0 ? QString("none")
+			: QString("%1 %2 %3/%4").arg(ci.type == 1 ? "board" : "pieces")
+			  .arg(ci.side.symbol()).arg(ci.count).arg(ci.limit);
 		out << "fen=" << board->fenString()
 		    << "|result=" << resultToken(r)
 		    << "|reason=" << r.description()
 		    << "|counting=" << static_cast<Chess::MakrukBoard*>(board.get())
 					->thaiCountingString()
+		    << "|promoted=" << promoted.join(' ')
+		    << "|display=" << display
 		    << "|legal=" << legal.join(' ') << "\n" << Qt::flush;
 	}
 	return 0;

@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CUTECHESS_VERSION "unknown")
-set(CUTEMAKRUK_VERSION "1.0.1")
+set(CUTEMAKRUK_VERSION "1.1.0")
 if(EXISTS ${CMAKE_SOURCE_DIR}/.version)
 	file(READ ${CMAKE_SOURCE_DIR}/.version CUTECHESS_VERSION)
 	string(REGEX REPLACE "(\r?\n)+" "" CUTECHESS_VERSION "${CUTECHESS_VERSION}")
@@ -275,6 +275,7 @@ add_executable(gui
 	projects/gui/res/chessboard/chessboard.qrc
 	projects/gui/res/icons/icons.qrc
 	projects/gui/res/i18n/i18n.qrc
+	projects/gui/res/icons/lucide.qrc
 )
 
 if(WIN32)

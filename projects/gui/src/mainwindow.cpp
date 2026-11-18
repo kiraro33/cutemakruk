@@ -31,11 +31,13 @@
 #include <QWindow>
 #include <QSettings>
 #include <QSysInfo>
+#include <QTimer>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QTabWidget>
 #include <QTextBrowser>
 #include <QActionGroup>
+#include <QStyleHints>
 #include <QDesktopServices>
 #include <updatecheck.h>
 #include <QVBoxLayout>
@@ -125,6 +127,7 @@ MainWindow::MainWindow(ChessGame* game)
 	createMenus();
 	createToolBars();
 	createDockWindows();
+	m_defaultLayout = saveState();
 
 	connect(m_moveList, SIGNAL(moveClicked(int,bool)),
 	        m_gameViewer, SLOT(viewMove(int,bool)));
@@ -191,7 +194,7 @@ void MainWindow::createActions()
 	m_quitGameAct->setShortcut(QKeySequence::Quit);
 	#endif
 
-	m_newTournamentAct = new QAction(tr("&New..."), this);
+	m_newTournamentAct = new QAction(tr("&New Tournament..."), this);
 	m_stopTournamentAct = new QAction(tr("&Stop"), this);
 	m_showTournamentResultsAct = new QAction(tr("&Results..."), this);
 
@@ -339,6 +342,28 @@ void MainWindow::createMenus()
 				tr("The language changes after a restart."));
 		});
 	}
+	QMenu* themeMenu = m_viewMenu->addMenu(tr("Theme"));
+	QActionGroup* themeGroup = new QActionGroup(themeMenu);
+	const QString curTheme = QSettings().value("ui/theme", "dark").toString();
+	const QList<QPair<QString, QString>> themes = {
+		{"system", tr("Follow Windows")}, {"light", tr("Light")},
+		{"dark", tr("Dark")} };
+	for (const auto& t : themes)
+	{
+		QAction* act = themeMenu->addAction(t.second);
+		act->setCheckable(true);
+		act->setChecked(t.first == curTheme);
+		themeGroup->addAction(act);
+		const QString code = t.first;
+		connect(act, &QAction::triggered, this, [code]()
+		{
+			QSettings().setValue("ui/theme", code);
+			QGuiApplication::styleHints()->setColorScheme(
+				code == "light" ? Qt::ColorScheme::Light
+				: code == "dark" ? Qt::ColorScheme::Dark
+				: Qt::ColorScheme::Unknown);
+		});
+	}
 	m_viewMenu->addSeparator();
 
 	m_windowMenu = menuBar()->addMenu(tr("&Window"));
@@ -457,6 +482,9 @@ void MainWindow::createDockWindows()
 	m_viewMenu->addAction(evalHistoryDock->toggleViewAction());
 	m_viewMenu->addAction(whiteEvalDock->toggleViewAction());
 	m_viewMenu->addAction(blackEvalDock->toggleViewAction());
+	m_viewMenu->addSeparator();
+	QAction* resetLayoutAct = m_viewMenu->addAction(tr("Reset Window Layout"));
+	connect(resetLayoutAct, &QAction::triggered, this, &MainWindow::applyDefaultLayout);
 }
 
 void MainWindow::readSettings()
@@ -466,10 +494,40 @@ void MainWindow::readSettings()
 	s.beginGroup("mainwindow");
 
 	restoreGeometry(s.value("geometry").toByteArray());
-	restoreState(s.value("window_state").toByteArray());
+	if (s.value("geometry").toByteArray().isEmpty())
+		resize(1280, 800);
+
+	// Cute Makruk 1.1: the board-first layout replaces older saved layouts once
+	const QByteArray state = s.value("window_state").toByteArray();
+	if (state.isEmpty() || !s.value("layout_v2", false).toBool())
+		applyDefaultLayout();
+	else
+		restoreState(state);
 
 	s.endGroup();
 	s.endGroup();
+}
+
+void MainWindow::applyDefaultLayout()
+{
+	restoreState(m_defaultLayout);
+	if (auto debug = findChild<QDockWidget*>("EngineDebugDock"))
+		debug->close();
+
+	// side panels narrow, evaluation graph low: the board gets the room
+	QTimer::singleShot(0, this, [this]()
+	{
+		auto dock = [this](const char* name)
+		{
+			return findChild<QDockWidget*>(name);
+		};
+		if (dock("MoveListDock") && dock("WhiteEvalDock"))
+			resizeDocks({dock("MoveListDock"), dock("WhiteEvalDock")},
+				    {width() / 6, width() / 4}, Qt::Horizontal);
+		if (dock("EvalHistoryDock"))
+			resizeDocks({dock("EvalHistoryDock")}, {height() / 7},
+				    Qt::Vertical);
+	});
 }
 
 void MainWindow::writeSettings()
@@ -480,6 +538,7 @@ void MainWindow::writeSettings()
 
 	s.setValue("geometry", saveGeometry());
 	s.setValue("window_state", saveState());
+	s.setValue("layout_v2", true);
 
 	s.endGroup();
 	s.endGroup();
@@ -1112,7 +1171,8 @@ void MainWindow::showAboutDialog()
 		   "used under the GNU LGPL version 3.") + "<br>"
 		   "<a href=\"https://www.qt.io\">qt.io</a></p>";
 	credits += "<p><b>" + tr("Icons") + "</b><br>"
-		   + tr("Toolbar icons from Cute Chess.") + "</p>";
+		   + tr("Button icons: Lucide (lucide.dev), ISC licence.") + "<br>"
+		   "<a href=\"https://lucide.dev\">lucide.dev</a></p>";
 	addTab(tr("Credits"), credits);
 
 	QString license;
