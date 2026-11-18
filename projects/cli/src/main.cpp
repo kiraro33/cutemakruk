@@ -39,7 +39,6 @@
 #include <enginetextoption.h>
 #include <openingsuite.h>
 #include <sprt.h>
-#include <board/syzygytablebase.h>
 #include <board/result.h>
 
 #include "cutechesscoreapp.h"
@@ -266,9 +265,6 @@ EngineMatch* parseMatch(const QStringList& args, QObject* parent)
 	parser.addOption("-draw", QMetaType::QStringList);
 	parser.addOption("-resign", QMetaType::QStringList);
 	parser.addOption("-maxmoves", QMetaType::Int, 1, 1);
-	parser.addOption("-tb", QMetaType::QString, 1, 1);
-	parser.addOption("-tbpieces", QMetaType::Int, 1, 1);
-	parser.addOption("-tbignore50", QMetaType::Bool, 0, 0);
 	parser.addOption("-event", QMetaType::QString, 1, 1);
 	parser.addOption("-games", QMetaType::Int, 1, 1);
 	parser.addOption("-rounds", QMetaType::Int, 1, 1);
@@ -379,27 +375,6 @@ EngineMatch* parseMatch(const QStringList& args, QObject* parent)
 			if (ok)
 				adjudicator.setMaximumGameLength(value.toInt());
 		}
-		// Syzygy tablebase adjudication
-		else if (name == "-tb")
-		{
-			adjudicator.setTablebaseAdjudication(true);
-			QString path = value.toString();
-
-			ok = SyzygyTablebase::initialize(path) &&
-			     SyzygyTablebase::tbAvailable(3);
-			if (!ok)
-				qWarning("Could not load Syzygy tablebases");
-		}
-		// Syzygy tablebase pieces
-		else if (name == "-tbpieces")
-		{
-			ok = value.toInt() > 2;
-			if (ok)
-				SyzygyTablebase::setPieces(value.toInt());
-		}
-		// Syzygy ignore 50-move-rule
-		else if (name == "-tbignore50")
-			SyzygyTablebase::setNoRule50();
 		// Event name
 		else if (name == "-event")
 			tournament->setName(value.toString());

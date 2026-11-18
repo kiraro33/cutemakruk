@@ -291,7 +291,6 @@ Game Length	ความยาวเกม
 Limit:	จำกัด:
 The game will be adjucated as drawn when move limit is reached	ตัดสินให้เสมอเมื่อเดินครบจำนวนตาที่จำกัด
  moves	 ตา
-Tablebase adjudication	ตัดสินด้วยตารางหมากจบ
 Thinking on opponent's time	คิดระหว่างเวลาของคู่แข่ง
 Importing	กำลังนำเข้า
 New Game	เกมใหม่
@@ -325,7 +324,6 @@ duration of a move animation (default: 300 ms)	ระยะเวลาภาพ
  ms	 ms
 &PGN Site:	สถานที่ใน PGN (&P):
 PGN output for single games:	บันทึก PGN ของเกมเดี่ยว:
-Sy&zygy tablebases path:	โฟลเดอร์ตาราง Syzygy (&Z):
 Engines	เอนจิน
 Tournaments	การแข่งขัน
 &Concurrent games:	จำนวนเกมพร้อมกัน (&C):

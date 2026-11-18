@@ -1276,7 +1276,7 @@
        />
   </g>
 </g>
-<g id="P" transform="translate(600,0)">
+<g id="P" transform="translate(600,0)"><rect x="9.625" y="9.625" width="76" height="76" fill="#000000" fill-opacity="0"/>
   <defs
      id="biaw_defs2">
     <linearGradient
@@ -2757,7 +2757,7 @@
        />
   </g>
 </g>
-<g id="p" transform="translate(600,120)">
+<g id="p" transform="translate(600,120)"><rect x="9.625" y="9.625" width="76" height="76" fill="#000000" fill-opacity="0"/>
   <defs
      id="biab_defs2">
     <linearGradient

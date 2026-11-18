@@ -8,13 +8,18 @@ Usage:  git clone https://github.com/Fulmene/makruk-pieces-image src
 Each piece file (<piece>_w.svg for White, <piece>_b.svg for Black) becomes one <g> whose id is the
 graphical symbol the GUI asks for (Board::representation: K E F R N P, lower case for Black). The ids
 inside each file are prefixed so the gradients and filters of different pieces do not clash.
-Changes from the source: files merged into one, ids renamed, Inkscape metadata removed.
+Changes from the source: files merged into one, ids renamed, Inkscape metadata removed, an invisible
+frame added around the Bia so that it is drawn smaller than the other pieces.
 """
 import re
 import sys
 
 PIECES = [("K", "khun"), ("F", "met"), ("E", "khon"), ("R", "rua"), ("N", "ma"), ("P", "bia")]
 STEP = 120.0  # piece files are 95.25 x 95.25 user units; keep the pieces apart
+# The GUI scales every element to 80% of a square by its bounds. The Bia disc would then be as
+# big as the Khun, so it gets an invisible square frame (centred on the disc, which sits in the
+# middle of its 95.25 source frame) that makes it draw at about half a square.
+BIA_FRAME = 76.0
 
 
 def body(path, prefix):
@@ -38,8 +43,13 @@ def main(src, out):
     for row, (side, suffix) in enumerate((("w", str.upper), ("b", str.lower))):
         for col, (sym, name) in enumerate(PIECES):
             gid = suffix(sym)
-            parts.append('<g id="%s" transform="translate(%g,%g)">%s</g>' % (
-                gid, col * STEP, row * STEP,
+            frame = ""
+            if sym == "P":
+                o = (95.25 - BIA_FRAME) / 2
+                frame = ('<rect x="%g" y="%g" width="%g" height="%g" fill="#000000" fill-opacity="0"/>'
+                         % (o, o, BIA_FRAME, BIA_FRAME))
+            parts.append('<g id="%s" transform="translate(%g,%g)">%s%s</g>' % (
+                gid, col * STEP, row * STEP, frame,
                 body("%s/%s_%s.svg" % (src, name, side), "%s%s_" % (name, side))))
     svg = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<!-- Makruk pieces by Ada Joule (github.com/Fulmene/makruk-pieces-image), CC BY-SA 4.0,\n'

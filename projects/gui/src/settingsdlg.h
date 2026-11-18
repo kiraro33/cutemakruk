@@ -43,7 +43,6 @@ class SettingsDialog : public QDialog
 		virtual void closeEvent(QCloseEvent* event);
 
 	private slots:
-		void browseTbPath();
 		void browseDefaultPgnOutFile();
 		void browseTournamentDefaultPgnOutFile();
 		void browseTournamentDefaultEpdOutFile();

@@ -551,16 +551,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="m_tbCheck">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Tablebase adjudication</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QCheckBox" name="m_ponderingCheck">
      <property name="enabled">
       <bool>false</bool>

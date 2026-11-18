@@ -101,12 +101,6 @@ SettingsDialog::SettingsDialog(QWidget* parent)
 		QSettings().setValue("games/default_pgn_output_file", defaultPgnFile);
 	});
 
-	connect(ui->m_tbPathEdit, &QLineEdit::textChanged,
-		[=](const QString& tbPath)
-	{
-		QSettings().setValue("ui/tb_path", tbPath);
-	});
-
 	connect(ui->m_tournamentDefaultPgnOutFileEdit, &QLineEdit::textChanged,
 		[=](const QString& tourFile)
 	{
@@ -119,8 +113,6 @@ SettingsDialog::SettingsDialog(QWidget* parent)
 		QSettings().setValue("tournament/default_epd_output_file", tourEpdFile);
 	});
 
-	connect(ui->m_browseTbPathBtn, &QPushButton::clicked,
-		this, &SettingsDialog::browseTbPath);
 	connect(ui->m_defaultPgnOutFileBtn, &QPushButton::clicked,
 		this, &SettingsDialog::browseDefaultPgnOutFile);
 	connect(ui->m_tournamentDefaultPgnOutFileBtn, &QPushButton::clicked,
@@ -144,24 +136,6 @@ void SettingsDialog::closeEvent(QCloseEvent* event)
 		ui->m_engineManagementWidget->saveConfig();
 
 	QDialog::closeEvent(event);
-}
-
-void SettingsDialog::browseTbPath()
-{
-	auto dlg = new QFileDialog(
-		this, tr("Choose Directory"),
-		ui->m_tbPathEdit->text());
-	dlg->setFileMode(QFileDialog::Directory);
-	dlg->setOption(QFileDialog::ShowDirsOnly);
-	dlg->setAttribute(Qt::WA_DeleteOnClose);
-	dlg->setAcceptMode(QFileDialog::AcceptOpen);
-
-	connect(dlg, &QFileDialog::fileSelected, [=](const QString& dir)
-	{
-		ui->m_tbPathEdit->setText(dir);
-		QSettings().setValue("ui/tb_path", dir);
-	});
-	dlg->open();
 }
 
 void SettingsDialog::browseDefaultPgnOutFile()
@@ -226,7 +200,6 @@ void SettingsDialog::readSettings()
 		s.value("display_players_sides_on_clocks", false).toBool());
 	ui->m_autoFlipBoardForHumanGamesCheck->setChecked(
 		s.value("auto_flip_board_for_human_games", false).toBool());
-	ui->m_tbPathEdit->setText(s.value("tb_path").toString());
 	ui->m_moveAnimationSpin->setValue(
 		s.value("move_animation_duration", 300).toInt());
 	s.endGroup();

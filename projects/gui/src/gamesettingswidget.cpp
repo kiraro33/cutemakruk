@@ -22,7 +22,6 @@
 #include <QSettings>
 
 #include <board/boardfactory.h>
-#include <board/syzygytablebase.h>
 #include <engineconfiguration.h>
 #include <openingsuite.h>
 #include <polyglotbook.h>
@@ -162,7 +161,6 @@ GameAdjudicator GameSettingsWidget::adjudicator() const
 			       ui->m_resignTwoSidedRadio->isEnabled()
 			       && ui->m_resignTwoSidedRadio->isChecked());
 	ret.setMaximumGameLength(ui->m_maxGameLengthSpin->value());
-	ret.setTablebaseAdjudication(ui->m_tbCheck->isChecked());
 
 	return ret;
 }
@@ -235,15 +233,6 @@ void GameSettingsWidget::readSettings()
 {
 	QSettings s;
 
-	bool tbOk = false;
-	QString tbPath = s.value("ui/tb_path").toString();
-	if (!tbPath.isEmpty())
-	{
-		tbOk = SyzygyTablebase::initialize({ tbPath }) &&
-		       SyzygyTablebase::tbAvailable(3);
-		ui->m_tbCheck->setEnabled(tbOk);
-	}
-
 	s.beginGroup("games");
 
 	ui->m_variantCombo->setCurrentText(s.value("variant").toString());
@@ -286,7 +275,6 @@ void GameSettingsWidget::readSettings()
 	ui->m_maxGameLengthSpin->setValue(s.value("max_moves", 0).toInt());
 	s.endGroup();
 
-	ui->m_tbCheck->setChecked(tbOk && s.value("use_tb").toBool());
 	ui->m_ponderingCheck->setChecked(s.value("pondering").toBool());
 
 	s.endGroup();
@@ -311,11 +299,6 @@ void GameSettingsWidget::enableSettingsUpdates()
 		s.endGroup(); // "second_time_control"
 
 		s.endGroup(); // "games"
-	});
-
-	connect(ui->m_tbCheck, &QCheckBox::toggled, [=](bool checked)
-	{
-		QSettings().setValue("games/use_tb", checked);
 	});
 
 	connect(ui->m_fenEdit, &QLineEdit::textChanged, [=](const QString& fen)
@@ -387,11 +370,6 @@ void GameSettingsWidget::enableSettingsUpdates()
 		[=](int moveCount)
 	{
 		QSettings().setValue("games/game_length/max_moves", moveCount);
-	});
-
-	connect(ui->m_tbCheck, &QCheckBox::toggled, [=](bool checked)
-	{
-		QSettings().setValue("games/use_tb", checked);
 	});
 
 	connect(ui->m_ponderingCheck, &QCheckBox::toggled, [=](bool checked)
