@@ -86,6 +86,11 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 		virtual QString variant() const;
 		virtual QString defaultFenString() const;
 		virtual Result result();
+		/*!
+		 * cutemakruk: the Thai counting state as Platoo's `d` prints
+		 * it (R5.11), e.g. "board side w limit 64 next 3 moved 0".
+		 */
+		QString thaiCountingString() const;
 
 	protected:
 		/*! Piece types for Makruk */
@@ -174,6 +179,32 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 						   int square) const;
 
 	private:
+		/*!
+		 * cutemakruk: Thai association rules 2569 (Platoo
+		 * MAKRUK_RULES v2.0). Used only by the "makruk" variant;
+		 * the derived boards keep the cutechess rules.
+		 */
+		enum ThaiCount { NoCount, BoardCount, PiecesCount };
+		struct ThaiData
+		{
+			int type;	// ThaiCount
+			int side;	// counting (bare) side for PiecesCount
+			int limit;	// pieces' honour limit (moves)
+			int next;	// pieces' honour: next count of the bare side
+			int ply;	// board's honour: counted plies
+			int rule50;	// reversible plies (FEN field 5 if no count)
+			quint64 key;	// placement key (side to move ignored)
+		};
+		bool m_thai;
+		bool thaiBare(Side side) const;
+		int thaiPiecesLimit(Side side) const;
+		quint64 thaiKey() const;
+		void thaiFreshStart(ThaiData& td) const;
+		void thaiSteps2to5(ThaiData& td, Side us) const;
+		bool thaiSetFen(const QStringList& fen);
+		QString thaiFenTail() const;
+		Result thaiResult();
+
 		QVarLengthArray<int> m_silverGeneralOffsets[2];
 		int m_promotionRank;
 		enum CountingRules m_rules;
@@ -186,6 +217,7 @@ class LIB_EXPORT MakrukBoard : public ShatranjBoard
 			int plyCount;
 			int totalPlies;
 			int pieceCount[King + 1][2];
+			ThaiData thai;
 		};
 		QVarLengthArray<MoveData> m_history;
 

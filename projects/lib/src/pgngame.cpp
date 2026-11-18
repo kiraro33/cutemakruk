@@ -403,7 +403,7 @@ QString PgnGame::variant() const
 		if ("chess" != variant && "normal" != variant)
 			return variant;
 	}
-	return "standard";
+	return "makruk";
 }
 
 Chess::Side PgnGame::startingSide() const

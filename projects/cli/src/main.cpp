@@ -754,12 +754,15 @@ int main(int argc, char* argv[])
 	{
 		if (arg == "-v" || arg == "--version" || arg == "-version")
 		{
-			out << "cutechess-cli " << CUTECHESS_VERSION << '\n';
+			out << "cutemakruk " << CUTEMAKRUK_VERSION << '\n';
+			out << "Makruk only, Thai association rules 2569" << '\n';
+			out << "Based on cutechess-cli " << CUTECHESS_VERSION << '\n';
 			out << "Using Qt version " << qVersion() << '\n';
 			out << "Running on " << QSysInfo::prettyProductName();
 			out << "/" << QSysInfo::currentCpuArchitecture() << '\n' << '\n';
 			out << "Copyright (C) 2008-2023 Ilari Pihlajisto, Arto Jonsson ";
 			out << "and contributors" << '\n';
+			out << "cutemakruk changes Copyright (C) 2026 PlaToo-PM" << '\n';
 			out << "This is free software; see the source for copying ";
 			out << "conditions.  There is NO" << '\n' << "warranty; not even for ";
 			out << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";

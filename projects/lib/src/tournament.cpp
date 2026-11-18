@@ -36,7 +36,7 @@ Tournament::Tournament(GameManager* gameManager, QObject *parent)
 	: QObject(parent),
 	  m_gameManager(gameManager),
 	  m_lastGame(nullptr),
-	  m_variant("standard"),
+	  m_variant("makruk"),
 	  m_round(0),
 	  m_oldRound(-1),
 	  m_nextGameNumber(0),

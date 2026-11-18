@@ -85,13 +85,13 @@ class LIB_EXPORT PgnStream
 		 * A device or a string must be set before the stream
 		 * can be used.
 		 */
-		explicit PgnStream(const QString& variant = "standard");
+		explicit PgnStream(const QString& variant = "makruk");
 		/*! Creates a PgnStream that operates on \a device. */
 		explicit PgnStream(QIODevice* device,
-				   const QString& variant = "standard");
+				   const QString& variant = "makruk");
 		/*! Creates a PgnStream that operates on \a string. */
 		explicit PgnStream(const QByteArray* string,
-				   const QString& variant = "standard");
+				   const QString& variant = "makruk");
 
 		/*! Destructs the PgnStream object. */
 		~PgnStream();

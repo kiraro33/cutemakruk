@@ -26,7 +26,8 @@ MakrukBoard::MakrukBoard()
 	  m_promotionRank(5),
 	  m_rules(Makruk),
 	  m_useWesternCounting(false),
-	  m_history()
+	  m_history(),
+	  m_thai(false)
 {
 	// King, Ferz, Rook, Knight and Pawn as in chaturanga and shatranj
 	setPieceType(Bia, tr("bia"), "P");                    //! Cowry Shell, Chip
@@ -50,7 +51,7 @@ QString MakrukBoard::variant() const
 
 QString MakrukBoard::defaultFenString() const
 {
-	return "rnsmksnr/8/pppppppp/8/8/PPPPPPPP/8/RNSKMSNR w - 0 0 1";
+	return "rnsmksnr/8/pppppppp/8/8/PPPPPPPP/8/RNSKMSNR w - - 0 1";
 }
 
 int MakrukBoard::promotionRank(int) const
@@ -72,7 +73,7 @@ inline void rotateAndStoreOffsets(QVarLengthArray<int> a[2])
 
 void MakrukBoard::initHistory()
 {
-	MoveData md {false, 0, 0, 0, {}};
+	MoveData md {false, 0, 0, 0, {}, {}};
 	m_history.clear();
 	m_history.append(md);
 }
@@ -83,6 +84,7 @@ void MakrukBoard::vInitialize()
 
 	m_promotionRank = promotionRank();
 	m_rules = countingRules();
+	m_thai = (m_rules == Makruk && variant() == "makruk");
 	initHistory();
 
 	/*
@@ -222,6 +224,21 @@ void MakrukBoard::vMakeMove(const Move& move, BoardTransition* transition)
 		md.plyCount = 0;
 		md.countingLimit = 2 * 64;
 	}
+
+	if (!m_thai)
+		return;
+
+	// Thai rules 2569: R5.4 counting update (spec model do_move_model)
+	ThaiData& td = md.thai;
+	bool irreversible = (capture != Piece::NoPiece || type == Bia);
+	if (td.type == BoardCount)
+		td.ply++;
+	else if (td.type == PiecesCount && td.side == side)
+		td.next++;
+	if (irreversible)
+		thaiSteps2to5(td, side);
+	td.rule50 = irreversible ? 0 : td.rule50 + 1;
+	td.key = thaiKey();
 }
 
 void MakrukBoard::vUndoMove(const Move& move)
@@ -245,6 +262,8 @@ void MakrukBoard::vUndoMove(const Move& move)
  */
 QString MakrukBoard::vFenString(Board::FenNotation notation) const
 {
+	if (m_thai)
+		return thaiFenTail();
 	if (m_useWesternCounting)
 		return WesternBoard::vFenString(notation);
 
@@ -289,6 +308,9 @@ bool MakrukBoard::vSetFenString(const QStringList& inputFen)
 	// Count all pieces
 	initHistory();
 	setAllPieceCounters();
+
+	if (m_thai)
+		return thaiSetFen(fen);
 
 	// Short FEN format or normal ep field "-" turn off Makruk counting
 	bool ok = true;
@@ -430,6 +452,9 @@ Result MakrukBoard::resultFromCounting() const
 
 Result MakrukBoard::result()
 {
+	if (m_thai)
+		return thaiResult();
+
 	QString str;
 	Side side = sideToMove();
 	Side opp = side.opposite();
@@ -466,6 +491,273 @@ Result MakrukBoard::result()
 		str = tr("Draw by fifty move rule");
 		return Result(Result::Draw, Side::NoSide, str);
 	}
+
+	return Result();
+}
+
+/*
+ * cutemakruk: Thai association rules 2569 (Platoo MAKRUK_RULES v2.0,
+ * ADR-0027). A direct port of the spec model in Platoo's
+ * makruk/tools/rule_tests.py (R5.2-R5.5, R5.8):
+ *
+ * - Board's honour: starts (count 0 of 64 moves = 128 plies) when the
+ *   last Bia leaves the board and neither side is bare; it is not
+ *   restarted by later captures. Draw at 128 counted plies.
+ * - Pieces' honour: starts when a side becomes bare (no Bia left);
+ *   the bare side counts from (pieces on the board + 1) to the limit
+ *   of the strong side's material (8/16/22/32/44/64); once started it
+ *   is kept (R4.9). A board count at 127+ plies is not replaced.
+ * - Result order: mate / stalemate, Khun vs Khun, counting draw,
+ *   3-fold repetition of the board placement (side to move ignored,
+ *   whole game). A mate always wins, also when the count is over.
+ */
+
+bool MakrukBoard::thaiBare(Side side) const
+{
+	return pieceCount(side) <= 1;
+}
+
+int MakrukBoard::thaiPiecesLimit(Side side) const
+{
+	int rooks = pieceCount(side, Rua);
+	if (rooks >= 2)
+		return 8;
+	if (rooks == 1)
+		return 16;
+	int khons = pieceCount(side, Khon);
+	if (khons >= 2)
+		return 22;
+	if (pieceCount(side, Ma) >= 2)
+		return 32;
+	if (khons == 1)
+		return 44;
+	return 64;
+}
+
+quint64 MakrukBoard::thaiKey() const
+{
+	quint64 key = 0;
+	for (int i = 0; i < arraySize(); i++)
+	{
+		const Piece piece = pieceAt(i);
+		if (!piece.isValid())
+			continue;
+		// splitmix64 of (square, piece): one random number per pair
+		quint64 z = quint64(i) * 64 + quint64(piece.type()) * 2
+			  + quint64(int(piece.side())) + 1;
+		z *= 0x9E3779B97F4A7C15ULL;
+		z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9ULL;
+		z = (z ^ (z >> 27)) * 0x94D049BB133111EBULL;
+		key ^= z ^ (z >> 31);
+	}
+	return key;
+}
+
+void MakrukBoard::thaiSteps2to5(ThaiData& td, Side us) const
+{
+	// R5.4 steps 2-5 after a capture or a Bia move by `us`
+	if (pieceCount(Side::NoSide, Bia) != 0)
+	{
+		td.type = NoCount;
+		return;
+	}
+	bool bw = thaiBare(Side::White), bb = thaiBare(Side::Black);
+	if (bw && bb)
+	{
+		td.type = NoCount;
+		return;
+	}
+	if (bw || bb)
+	{
+		Side x = bw ? Side::White : Side::Black;
+		if (td.type == PiecesCount)
+			return;				// R4.9
+		if (td.type == BoardCount && td.ply >= 127)
+			return;				// R4.5: draw
+		td.type = PiecesCount;
+		td.side = x;
+		td.limit = thaiPiecesLimit(x.opposite());
+		td.next = pieceCount() + 1 + (us == x ? 1 : 0);
+		return;
+	}
+	if (td.type == NoCount)
+	{
+		td.type = BoardCount;
+		td.ply = 1;
+		td.side = us;
+		td.limit = 64;
+	}
+}
+
+void MakrukBoard::thaiFreshStart(ThaiData& td) const
+{
+	// R5.4 fresh start: no move made the count
+	td.type = NoCount;
+	if (pieceCount(Side::NoSide, Bia) != 0)
+		return;
+	bool bw = thaiBare(Side::White), bb = thaiBare(Side::Black);
+	if (bw && bb)
+		return;
+	if (bw || bb)
+	{
+		Side x = bw ? Side::White : Side::Black;
+		td.type = PiecesCount;
+		td.side = x;
+		td.limit = thaiPiecesLimit(x.opposite());
+		td.next = pieceCount() + 1;
+	}
+	else
+	{
+		td.type = BoardCount;
+		td.ply = 0;
+		td.side = sideToMove();
+		td.limit = 64;
+	}
+}
+
+/*!
+ * R5.8 reader. \a fen holds the FEN fields after the side to move:
+ * castling ("-"), field 4 (counting limit in plies or "-"), field 5
+ * (counted plies or reversible plies) and the full move number.
+ */
+bool MakrukBoard::thaiSetFen(const QStringList& fen)
+{
+	MoveData& md = m_history.last();
+	ThaiData& td = md.thai;
+	bool ok;
+
+	int lp = 0, f5 = -1, full = 1;
+	bool hasLp = false, hasF5 = false;
+	if (fen.size() > 1)
+		lp = fen.at(1).toInt(&hasLp);
+	if (fen.size() > 2)
+	{
+		f5 = fen.at(2).toInt(&hasF5);
+		if (!hasF5)
+			return false;
+	}
+	if (fen.size() > 3)
+	{
+		full = fen.at(3).toInt(&ok);
+		if (!ok)
+			return false;
+	}
+
+	td = ThaiData {NoCount, Side::White, 0, 0, 0, 0, 0};
+	bool noBia = (pieceCount(Side::NoSide, Bia) == 0);
+	bool bw = thaiBare(Side::White), bb = thaiBare(Side::Black);
+	if (!hasLp || lp <= 0)
+	{
+		thaiFreshStart(td);
+		td.rule50 = (hasF5 && f5 >= 0) ? f5 : 0;
+	}
+	else if (!hasF5 || f5 < 0)
+		thaiFreshStart(td);
+	else if (!noBia || (bw && bb))
+		;	// no count possible, rule50 = 0
+	else if (bw || bb)
+	{
+		Side x = bw ? Side::White : Side::Black;
+		td.type = PiecesCount;
+		td.side = x;
+		int lim = lp / 2;
+		td.limit = (lim >= 8 && lim <= 64)
+			   ? lim : thaiPiecesLimit(x.opposite());
+		int p = qMin(f5, 2 * td.limit + 2);
+		td.next = (sideToMove() == x) ? p / 2 + 1 : (p + 3) / 2;
+	}
+	else
+	{
+		td.type = BoardCount;
+		td.limit = 64;
+		td.ply = qMin(f5, 128);
+		td.side = (f5 % 2 == 0) ? sideToMove()
+					: sideToMove().opposite();
+	}
+
+	if (full < 1)
+		full = 1;
+	md.totalPlies = 2 * (full - 1);
+	if (sideToMove() == Side::Black)
+		md.totalPlies++;
+	td.key = thaiKey();
+	return true;
+}
+
+QString MakrukBoard::thaiFenTail() const
+{
+	// R5.8 writer
+	const MoveData& md = m_history.last();
+	const ThaiData& td = md.thai;
+	QString tail;
+	if (td.type == BoardCount)
+		tail = QString("128 %1").arg(td.ply);
+	else if (td.type == PiecesCount)
+	{
+		int p = (sideToMove() == Side(Side::Type(td.side)))
+			? 2 * (td.next - 1) : 2 * td.next - 3;
+		tail = QString("%1 %2").arg(2 * td.limit).arg(p);
+	}
+	else
+		tail = QString("- %1").arg(td.rule50);
+	return QString("- %1 %2").arg(tail).arg(1 + md.totalPlies / 2);
+}
+
+QString MakrukBoard::thaiCountingString() const
+{
+	const ThaiData& td = m_history.last().thai;
+	if (td.type == NoCount)
+		return "none";
+	int next = (td.type == BoardCount) ? td.ply / 2 + 1 : td.next;
+	return QString("%1 side %2 limit %3 next %4 moved 0")
+		.arg(td.type == BoardCount ? "board" : "pieces")
+		.arg(Side(Side::Type(td.side)).symbol())
+		.arg(td.limit).arg(next);
+}
+
+Result MakrukBoard::thaiResult()
+{
+	Side side = sideToMove();
+	Side opp = side.opposite();
+	const MoveData& md = m_history.last();
+	const ThaiData& td = md.thai;
+
+	// R5.5 rows 1-2: checkmate (always wins) / stalemate
+	if (!canMove())
+	{
+		if (inCheck(side))
+			return Result(Result::Win, opp,
+				      tr("%1 mates").arg(opp.toString()));
+		return Result(Result::Draw, Side::NoSide,
+			      tr("Draw by stalemate"));
+	}
+
+	// R5.5 row 3: Khun vs Khun
+	bool bw = thaiBare(Side::White), bb = thaiBare(Side::Black);
+	if (bw && bb)
+		return Result(Result::Draw, Side::NoSide,
+			      tr("Draw by bare khuns"));
+
+	// R5.5 row 4: counting draw
+	if (td.type == BoardCount && (td.ply >= 128 || bw || bb))
+		return Result(Result::Draw, Side::NoSide,
+			      tr("Draw by board's honour counting"));
+	if (td.type == PiecesCount
+	&&  td.next > (side == Side(Side::Type(td.side))
+			? td.limit : td.limit + 1))
+		return Result(Result::Draw, Side::NoSide,
+			      tr("Draw by pieces' honour counting"));
+
+	// R5.5 row 5: 3-fold repetition of the board (whole game)
+	int reps = 0;
+	for (const MoveData& h : m_history)
+	{
+		if (h.thai.key == td.key)
+			reps++;
+	}
+	if (reps >= 3)
+		return Result(Result::Draw, Side::NoSide,
+			      tr("Draw by 3-fold repetition"));
 
 	return Result();
 }

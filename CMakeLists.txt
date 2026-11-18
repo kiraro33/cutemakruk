@@ -187,10 +187,15 @@ add_executable(cli
 	projects/cli/res/doc/doc.qrc
 )
 
-set_target_properties(cli PROPERTIES OUTPUT_NAME cutechess-cli)
+set_target_properties(cli PROPERTIES OUTPUT_NAME cutemakruk)
+target_compile_definitions(cli PRIVATE CUTEMAKRUK_VERSION="0.1.0")
 
 target_link_libraries(cli Qt::Core Qt::Core5Compat)
 target_link_libraries(cli lib)
+
+# cutemakruk: rule test driver (Thai rules 2569)
+add_executable(makrukjudge projects/cli/src/makrukjudge.cpp)
+target_link_libraries(makrukjudge Qt::Core Qt::Core5Compat lib)
 add_dependencies(cli lib)
 
 add_executable(gui
