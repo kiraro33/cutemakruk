@@ -1,7 +1,10 @@
-# cutemakruk
+<p align="center"><img src="docs/cutemakruk-logo.png" alt="Cute Makruk" width="320"></p>
 
-cutemakruk is a Makruk-only fork of the command-line tool of
-[Cute Chess](https://github.com/cutechess/cutechess) 1.5.1 (`cutechess-cli`).
+# Cute Makruk
+
+Cute Makruk is a Makruk-only fork of
+[Cute Chess](https://github.com/cutechess/cutechess) 1.5.1: the command-line tool
+(`cutemakruk`, from `cutechess-cli`) and the GUI (`cutemakruk-gui`).
 It plays engine matches in Makruk (Thai chess) and ends the games by the
 **Thai association rules 2569**, as used by the
 [Platoo](https://github.com/kiraro33/platoo-engine) engine:
@@ -18,6 +21,13 @@ It plays engine matches in Makruk (Thai chess) and ends the games by the
 
 `makruk` is the only variant and the default one. The binary is `cutemakruk`;
 the options are those of `cutechess-cli` (see `cutemakruk --help`).
+
+The GUI `cutemakruk-gui` plays and shows Makruk games (human or engine) with the
+same rules, using the Makruk piece images by Ada Joule
+([Fulmene/makruk-pieces-image](https://github.com/Fulmene/makruk-pieces-image),
+CC BY-SA 4.0; merged into `projects/gui/res/chessboard/makruk-fulmene.svg` by
+`tools/makruk/make_pieces.py`, see `makruk-fulmene.txt`). Help > About shows the
+version, credits and licence tabs.
 
 Result texts: `White mates` / `Black mates`, `Draw by stalemate`,
 `Draw by bare khuns`, `Draw by board's honour counting`,
@@ -37,12 +47,12 @@ Build (MSYS2 MinGW64, Qt 6):
 
     pacman -S mingw-w64-x86_64-qt6-base mingw-w64-x86_64-qt6-svg mingw-w64-x86_64-qt6-5compat mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
     cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=OFF -S . -B build
-    cmake --build build --target cli makrukjudge
+    cmake --build build --target cli makrukjudge gui
 
-cutemakruk is free software under the GNU General Public License v3 (see
+Cute Makruk is free software under the GNU General Public License v3 (see
 `COPYING`), like Cute Chess. All credit for the match engine goes to the Cute Chess
 authors (Ilari Pihlajisto, Arto Jonsson and contributors); the original README
-follows. The GUI is not maintained in this fork.
+follows. The Makruk piece images are CC BY-SA 4.0 (Ada Joule).
 
 ---
 

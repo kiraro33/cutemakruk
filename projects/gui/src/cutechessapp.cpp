@@ -61,20 +61,22 @@ CuteChessApplication::CuteChessApplication(int& argc, char* argv[])
 
 	// Set the application icon
 	QIcon icon;
-	icon.addFile(":/icons/cutechess_512x512.png");
-	icon.addFile(":/icons/cutechess_256x256.png");
-	icon.addFile(":/icons/cutechess_128x128.png");
-	icon.addFile(":/icons/cutechess_64x64.png");
-	icon.addFile(":/icons/cutechess_32x32.png");
-	icon.addFile(":/icons/cutechess_24x24.png");
-	icon.addFile(":/icons/cutechess_16x16.png");
+	icon.addFile(":/icons/cutemakruk_512x512.png");
+	icon.addFile(":/icons/cutemakruk_256x256.png");
+	icon.addFile(":/icons/cutemakruk_128x128.png");
+	icon.addFile(":/icons/cutemakruk_48x48.png");
+	icon.addFile(":/icons/cutemakruk_64x64.png");
+	icon.addFile(":/icons/cutemakruk_32x32.png");
+	icon.addFile(":/icons/cutemakruk_24x24.png");
+	icon.addFile(":/icons/cutemakruk_16x16.png");
 	setWindowIcon(icon);
 
 	setQuitOnLastWindowClosed(false);
 
-	QCoreApplication::setOrganizationName("cutechess");
-	QCoreApplication::setOrganizationDomain("cutechess.com");
-	QCoreApplication::setApplicationName("cutechess");
+	QCoreApplication::setOrganizationName("cutemakruk");
+	QCoreApplication::setOrganizationDomain("github.com/kiraro33/cutemakruk");
+	QCoreApplication::setApplicationName("cutemakruk");
+	QGuiApplication::setApplicationDisplayName("Cute Makruk");
 	QCoreApplication::setApplicationVersion(CUTECHESS_VERSION);
 
 	// Use Ini format on all platforms
@@ -177,9 +179,9 @@ MainWindow* CuteChessApplication::newGameWindow(ChessGame* game)
 
 void CuteChessApplication::newDefaultGame()
 {
-	// default game is a human versus human game using standard variant and
+	// default game is a human versus human game using the makruk variant and
 	// infinite time control
-	ChessGame* game = new ChessGame(Chess::BoardFactory::create("standard"),
+	ChessGame* game = new ChessGame(Chess::BoardFactory::create("makruk"),
 		new PgnGame());
 
 	game->setTimeControl(TimeControl("inf"));

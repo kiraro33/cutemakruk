@@ -58,12 +58,16 @@ int main(int argc, char* argv[])
 		if (arguments.first() == QLatin1String("-v") ||
 			arguments.first() == QLatin1String("--version"))
 		{
-			out << "Cute Chess " << CUTECHESS_VERSION << '\n';
+			out << "Cute Makruk " << CUTEMAKRUK_VERSION << " (GUI)" << '\n';
+			out << "Makruk only, Thai association rules 2569" << '\n';
+			out << "Based on Cute Chess " << CUTECHESS_VERSION << '\n';
 			out << "Using Qt version " << qVersion() << '\n';
 			out << "Running on " << QSysInfo::prettyProductName();
 			out << "/" << QSysInfo::currentCpuArchitecture() << '\n' << '\n';
 			out << "Copyright (C) 2008-2020 Ilari Pihlajisto, Arto Jonsson ";
 			out << "and contributors" << '\n';
+			out << "Cute Makruk changes Copyright (C) 2026 Kiraro33 (O.T.)" << '\n';
+			out << "Makruk piece images by Ada Joule (Fulmene), CC BY-SA 4.0" << '\n';
 			out << "This is free software; see the source for copying ";
 			out << "conditions.  There is NO" << '\n' << "warranty; not even for ";
 			out << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";

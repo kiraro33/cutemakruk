@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/icons">
+        <file>cutemakruk_16x16.png</file>
+        <file>cutemakruk_24x24.png</file>
+        <file>cutemakruk_32x32.png</file>
+        <file>cutemakruk_48x48.png</file>
+        <file>cutemakruk_64x64.png</file>
+        <file>cutemakruk_128x128.png</file>
+        <file>cutemakruk_256x256.png</file>
+        <file>cutemakruk_512x512.png</file>
         <file>cutechess_16x16.png</file>
         <file>cutechess_24x24.png</file>
         <file>cutechess_32x32.png</file>

@@ -9,6 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CUTECHESS_VERSION "unknown")
+set(CUTEMAKRUK_VERSION "0.2.0")
 if(EXISTS ${CMAKE_SOURCE_DIR}/.version)
 	file(READ ${CMAKE_SOURCE_DIR}/.version CUTECHESS_VERSION)
 	string(REGEX REPLACE "(\r?\n)+" "" CUTECHESS_VERSION "${CUTECHESS_VERSION}")
@@ -188,7 +189,7 @@ add_executable(cli
 )
 
 set_target_properties(cli PROPERTIES OUTPUT_NAME cutemakruk)
-target_compile_definitions(cli PRIVATE CUTEMAKRUK_VERSION="0.1.0")
+target_compile_definitions(cli PRIVATE CUTEMAKRUK_VERSION="${CUTEMAKRUK_VERSION}")
 
 target_link_libraries(cli Qt::Core Qt::Core5Compat)
 target_link_libraries(cli lib)
@@ -280,7 +281,8 @@ if(WIN32)
 	)
 endif()
 
-set_target_properties(gui PROPERTIES OUTPUT_NAME cutechess)
+set_target_properties(gui PROPERTIES OUTPUT_NAME cutemakruk-gui)
+target_compile_definitions(gui PRIVATE CUTEMAKRUK_VERSION="${CUTEMAKRUK_VERSION}")
 set_target_properties(gui PROPERTIES AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/projects/gui/ui)
 set_target_properties(gui PROPERTIES WIN32_EXECUTABLE ON)
 

@@ -197,7 +197,7 @@ void GameViewer::setGame(const PgnGame* pgn)
 	{
 		QMessageBox::critical(
 			this, tr("Cannot show game"),
-			tr("This game is incompatible with Cute Chess and cannot be shown."));
+			tr("This game is incompatible with Cute Makruk and cannot be shown."));
 	}
 	m_moveIndex = 0;
 

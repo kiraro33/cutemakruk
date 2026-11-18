@@ -41,7 +41,7 @@ GameSettingsWidget::GameSettingsWidget(QWidget* parent)
 	ui->m_variantCombo->addItems(Chess::BoardFactory::variants());
 	connect(ui->m_variantCombo, SIGNAL(currentTextChanged(const QString &)),
 		this, SIGNAL(variantChanged(QString)));
-	int index = ui->m_variantCombo->findText("standard");
+	int index = ui->m_variantCombo->findText("makruk");
 	ui->m_variantCombo->setCurrentIndex(index);
 
 	connect(ui->m_timeControlBtn, SIGNAL(clicked()),

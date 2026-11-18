@@ -1,0 +1,10 @@
+The file makruk-fulmene.svg holds the Makruk piece images by Ada Joule (Fulmene),
+https://github.com/Fulmene/makruk-pieces-image (commit 05b856b7), published under the
+Creative Commons Attribution-ShareAlike 4.0 International licence (CC BY-SA 4.0),
+https://creativecommons.org/licenses/by-sa/4.0/ .
+
+Changes for Cute Makruk: the White (*_w.svg) and Black (*_b.svg) files of khun, met, khon,
+rua, ma and bia were merged into one SVG file with tools/makruk/make_pieces.py; each piece is
+a group named by its board symbol (K F E R N P, lower case for Black), the ids inside each
+file were prefixed, and Inkscape editor metadata was removed. The drawings are unchanged.
+This adapted file is also published under CC BY-SA 4.0.

@@ -31,6 +31,11 @@
 #include <QWindow>
 #include <QSettings>
 #include <QSysInfo>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QTabWidget>
+#include <QTextBrowser>
+#include <QVBoxLayout>
 
 #include <board/boardfactory.h>
 #include <chessgame.h>
@@ -212,7 +217,7 @@ void MainWindow::createActions()
 	m_showNextTabAct->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_Tab));
 	#endif
 
-	m_aboutAct = new QAction(tr("&About Cute Chess..."), this);
+	m_aboutAct = new QAction(tr("&About Cute Makruk..."), this);
 	m_aboutAct->setMenuRole(QAction::AboutRole);
 
 	connect(m_newGameAct, SIGNAL(triggered()), this, SLOT(newGame()));
@@ -981,7 +986,7 @@ void MainWindow::pasteFen()
 		return;
 
 	QString variant = m_game.isNull() || m_game->board() == nullptr ?
-				"standard" : m_game->board()->variant();
+				"makruk" : m_game->board()->variant();
 
 	auto board = Chess::BoardFactory::create(variant);
 	if (!board->setFenString(cb->text()))
@@ -1012,20 +1017,81 @@ void MainWindow::pasteFen()
 
 void MainWindow::showAboutDialog()
 {
-	QString html;
-	html += "<h3>" + QString("Cute Chess %1")
-		.arg(CuteChessApplication::applicationVersion()) + "</h3>";
-	html += "<p>" + tr("Using Qt version %1").arg(qVersion()) + "</p>";
-	html += "<p>" + tr("Running on %1/%2").arg(QSysInfo::prettyProductName(), QSysInfo::currentCpuArchitecture()) + "</p>";
-	html += "<p>" + tr("Copyright 2008-2020 "
-			   "Cute Chess authors") + "</p>";
-	html += "<p>" + tr("This is free software; see the source for copying "
-			   "conditions. There is NO warranty; not even for "
-			   "MERCHANTABILITY or FITNESS FOR A PARTICULAR "
-			   "PURPOSE.") + "</p>";
-	html += "<a href=\"http://cutechess.com\">cutechess.com</a><br>";
+	QDialog dlg(this);
+	dlg.setWindowTitle(tr("About Cute Makruk"));
+	auto tabs = new QTabWidget(&dlg);
+	auto addTab = [tabs](const QString& title, const QString& html)
+	{
+		auto browser = new QTextBrowser;
+		browser->setOpenExternalLinks(true);
+		browser->setHtml(html);
+		tabs->addTab(browser, title);
+	};
 
-	QMessageBox::about(this, tr("About Cute Chess"), html);
+	QString about;
+	about += "<p align=\"center\"><img src=\":/icons/cutemakruk_128x128.png\" width=\"128\" height=\"128\"></p>";
+	about += "<h3>" + QString("Cute Makruk %1").arg(CUTEMAKRUK_VERSION) + "</h3>";
+	about += "<p>" + tr("Makruk (Thai chess) only. Games end by the Thai "
+			    "association rules 2569: counting (board's honour and "
+			    "pieces' honour), 3-fold repetition, bare khuns, "
+			    "stalemate and mate.") + "</p>";
+	about += "<p>" + tr("Based on Cute Chess %1")
+		.arg(CuteChessApplication::applicationVersion()) + "</p>";
+	about += "<p>" + tr("Using Qt version %1").arg(qVersion()) + "</p>";
+	about += "<p>" + tr("Running on %1/%2").arg(QSysInfo::prettyProductName(), QSysInfo::currentCpuArchitecture()) + "</p>";
+	about += "<p>" + tr("Cute Makruk changes Copyright (C) 2026 Kiraro33 (O.T.)")
+		+ "<br>" + tr("Copyright 2008-2020 Cute Chess authors") + "</p>";
+	about += "<a href=\"https://github.com/kiraro33/cutemakruk\">"
+		 "github.com/kiraro33/cutemakruk</a>";
+	addTab(tr("About"), about);
+
+	QString credits;
+	credits += "<h3>" + tr("Credits") + "</h3>";
+	credits += "<p><b>Cute Chess</b><br>" + tr("Cute Makruk is a fork of Cute Chess "
+		   "by Ilari Pihlajisto, Arto Jonsson and contributors, "
+		   "licensed under the GNU GPL version 3.") + "<br>"
+		   "<a href=\"https://github.com/cutechess/cutechess\">"
+		   "github.com/cutechess/cutechess</a></p>";
+	credits += "<p><b>" + tr("Makruk piece images") + "</b><br>"
+		   + tr("By Ada Joule (Fulmene), licensed under Creative Commons "
+			"Attribution-ShareAlike 4.0 (CC BY-SA 4.0). Changes: the "
+			"piece files were merged into one SVG file and their ids "
+			"renamed.") + "<br>"
+		   "<a href=\"https://github.com/Fulmene/makruk-pieces-image\">"
+		   "github.com/Fulmene/makruk-pieces-image</a><br>"
+		   "<a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">"
+		   "creativecommons.org/licenses/by-sa/4.0</a></p>";
+	credits += "<p><b>Qt</b><br>" + tr("The Qt Company and contributors, "
+		   "used under the GNU LGPL version 3.") + "<br>"
+		   "<a href=\"https://www.qt.io\">qt.io</a></p>";
+	credits += "<p><b>" + tr("Icons") + "</b><br>"
+		   + tr("Toolbar icons from Cute Chess.") + "</p>";
+	addTab(tr("Credits"), credits);
+
+	QString license;
+	license += "<p>" + tr("Cute Makruk is free software: you can redistribute it "
+			      "and/or modify it under the terms of the GNU General "
+			      "Public License as published by the Free Software "
+			      "Foundation, either version 3 of the License, or (at "
+			      "your option) any later version.") + "</p>";
+	license += "<p>" + tr("This program is distributed in the hope that it will "
+			      "be useful, but WITHOUT ANY WARRANTY; without even the "
+			      "implied warranty of MERCHANTABILITY or FITNESS FOR A "
+			      "PARTICULAR PURPOSE. See the GNU General Public License "
+			      "for more details.") + "</p>";
+	license += "<p>" + tr("The Makruk piece images are licensed under CC BY-SA 4.0.")
+		+ "</p>";
+	license += "<a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">"
+		   "gnu.org/licenses/gpl-3.0.html</a>";
+	addTab(tr("License"), license);
+
+	auto buttons = new QDialogButtonBox(QDialogButtonBox::Close, &dlg);
+	connect(buttons, &QDialogButtonBox::rejected, &dlg, &QDialog::reject);
+	auto layout = new QVBoxLayout(&dlg);
+	layout->addWidget(tabs);
+	layout->addWidget(buttons);
+	dlg.resize(560, 440);
+	dlg.exec();
 }
 
 void MainWindow::lockCurrentGame()

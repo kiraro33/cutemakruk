@@ -46,7 +46,7 @@ BoardScene::BoardScene(QObject* parent)
 	  m_reserve(nullptr),
 	  m_chooser(nullptr),
 	  m_anim(nullptr),
-	  m_renderer(new QSvgRenderer(QString(":/default.svg"), this)),
+	  m_renderer(new QSvgRenderer(QString(":/makruk-fulmene.svg"), this)),
 	  m_highlightPiece(nullptr),
 	  m_moveArrows(nullptr)
 {
