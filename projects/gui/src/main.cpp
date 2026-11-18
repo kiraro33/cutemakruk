@@ -49,8 +49,10 @@ class TableTranslator : public QTranslator
 			if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 				return false;
 			const QStringList lines = QString::fromUtf8(file.readAll()).split('\n');
-			for (const QString& line : lines)
+			for (QString line : lines)
 			{
+				if (line.endsWith(''))
+					line.chop(1);
 				if (line.isEmpty() || line.startsWith('#'))
 					continue;
 				int tab = line.indexOf('\t');
