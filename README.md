@@ -1,90 +1,86 @@
 <p align="center"><img src="docs/cutemakruk-logo.png" alt="Cute Makruk" width="320"></p>
 
-<p align="center"><a href="README.th.md">ภาษาไทย</a> | <b>English</b></p>
+<p align="center"><b>ภาษาไทย</b> | <a href="README.en.md">English</a></p>
 
 # Cute Makruk
 
-Cute Makruk is a Makruk-only fork of
-[Cute Chess](https://github.com/cutechess/cutechess) 1.5.1: the command-line tool
-(`cutemakruk`, from `cutechess-cli`) and the GUI (`cutemakruk-gui`).
-It plays engine matches in Makruk (Thai chess) and ends the games by the
-**Thai association rules 2569**, as used by the
-[Platoo](https://github.com/kiraro33/platoo-engine) engine:
+Cute Makruk เป็นโปรแกรมที่แยกพัฒนา (fork) มาจาก
+[Cute Chess](https://github.com/cutechess/cutechess) 1.5.1 สำหรับหมากรุกไทยโดยเฉพาะ
+มีทั้งโปรแกรมแบบบรรทัดคำสั่ง (`cutemakruk` พัฒนาจาก `cutechess-cli`) และโปรแกรมแบบหน้าต่าง
+(`cutemakruk-gui`) ใช้จัดการแข่งขันระหว่างเอนจินหมากรุกไทย และตัดสินผลตาม
+**กติกาหมากรุกไทยของสมาคมฯ พ.ศ. 2569** แบบเดียวกับเอนจิน
+[Platoo](https://github.com/kiraro33/platoo-engine)
 
-* counting: board's honour (64 moves after the last Bia leaves the board, not
-  restarted by later captures) and pieces' honour (a bare Khun counts from the
-  number of pieces + 1 up to 8/16/22/32/44/64 by the strong side's material);
-* Khun vs Khun is a draw; there is no other insufficient-material draw;
-* 3-fold repetition of the board placement (side to move ignored) is a draw;
-* checkmate always wins, also when the count is over;
-* the FEN fields 4 and 5 carry the counting state (`- 0`, `128 <plies>` or
-  `<2 x limit> <count plies>`), so a position with a running count can be
-  given to an engine and written to the PGN.
+* การนับ: นับศักดิ์กระดาน (64 ตา หลังจากเบี้ยตัวสุดท้ายออกจากกระดาน
+  การกินหมากในภายหลังไม่ทำให้เริ่มนับใหม่) และนับศักดิ์หมาก (เมื่อฝ่ายหนึ่งเหลือขุนตัวเดียว
+  เริ่มนับจากจำนวนหมากบนกระดาน + 1 จนถึง 8/16/22/32/44/64 ตามหมากของฝ่ายที่ได้เปรียบ)
+* ขุนต่อขุนเป็นเสมอ นอกจากนี้ไม่มีการเสมอเพราะหมากไม่พอรุกจน
+* ตำแหน่งหมากบนกระดานซ้ำกันครบ 3 ครั้ง (ไม่ดูว่าฝ่ายใดเดิน) เป็นเสมอ
+* รุกจนชนะเสมอ แม้การนับจะครบแล้ว
+* ช่องที่ 4 และ 5 ของ FEN เก็บสถานะการนับ (`- 0`, `128 <จำนวนตาเดิน>` หรือ
+  `<2 x จำนวนนับสูงสุด> <จำนวนตาที่นับ>`) จึงส่งตำแหน่งที่กำลังนับอยู่ให้เอนจิน
+  และบันทึกลง PGN ได้
 
-## Why Cute Makruk: differences from Cute Chess
+ผลการแข่งขันที่แสดง: `White mates` / `Black mates` (ขาว/ดำรุกจน), `Draw by stalemate` (อับ),
+`Draw by bare khuns` (ขุนต่อขุน), `Draw by board's honour counting` (นับศักดิ์กระดานครบ),
+`Draw by pieces' honour counting` (นับศักดิ์หมากครบ), `Draw by 3-fold repetition` (ซ้ำ 3 ครั้ง)
 
-Cute Chess can play Makruk, but its Makruk rules are not the Thai rules, so match
-results had to be fixed afterwards. The problems it had, and what Cute Makruk does:
+## ทำไมต้อง Cute Makruk: ต่างจาก Cute Chess อย่างไร
 
-| | Cute Chess 1.5.1 (`makruk` variant) | Cute Makruk |
+Cute Chess เล่นหมากรุกไทยได้ แต่กติกาที่ใช้ไม่ตรงกับกติกาไทย จึงต้องมาแก้ผลการแข่งขันทีหลัง
+ปัญหาเดิมและสิ่งที่ Cute Makruk แก้:
+
+| | Cute Chess 1.5.1 (รูปแบบ `makruk`) | Cute Makruk |
 |---|---|---|
-| Counting | its own counting / "sixty-four move rule", not the Thai board's and pieces' honour | Thai rules 2569: board's honour (64 moves, not restarted by captures) and pieces' honour (8 to 64 by material) |
-| Insufficient material | "Draw by insufficient mating material" in positions that are not draws in Thai rules | only Khun vs Khun is a draw |
-| Repetition | no repetition draw for Makruk, so long shuffles ran to `-maxmoves` or needed `-draw` adjudication | 3-fold repetition of the board placement is a draw |
-| Counting in FEN | not stored | FEN fields 4/5 carry the count, so a book position keeps its running count |
-| Results | had to be re-judged by a separate script; in a 1,000-game test 146 results changed | the result is already the Thai result: 0 of 1,000 changed |
-| Game length | 322 plies on average, 66.5 min for 1,000 games at 10+0.1 | 194 plies on average, 45.9 min for the same match |
-| Variants | 75 chess variants, `standard` by default | Makruk only, the default |
-| GUI | chess pieces, English | Makruk pieces, Thai by default (English selectable), Thai board labels |
+| การนับ | ใช้การนับของตัวเอง / "sixty-four move rule" ไม่ใช่นับศักดิ์กระดานและนับศักดิ์หมากแบบไทย | ตามกติกา 2569: นับศักดิ์กระดาน (64 ตา การกินหมากไม่ทำให้เริ่มนับใหม่) และนับศักดิ์หมาก (8 ถึง 64 ตามหมากที่เหลือ) |
+| หมากไม่พอรุกจน | ตัดสินเสมอว่า "หมากไม่พอรุกจน" ในตำแหน่งที่กติกาไทยไม่ถือว่าเสมอ | เสมอเฉพาะขุนต่อขุน |
+| ตำแหน่งซ้ำ | ไม่มีกติกาเสมอเพราะตำแหน่งซ้ำ เกมที่เดินวนจึงยาวจนถึง `-maxmoves` หรือต้องใช้ `-draw` ตัดสิน | ตำแหน่งหมากซ้ำ 3 ครั้งเป็นเสมอ |
+| การนับใน FEN | ไม่เก็บ | ช่องที่ 4/5 ของ FEN เก็บการนับ ตำแหน่งจากตำราเปิดหมากจึงนับต่อได้ถูกต้อง |
+| ผลการแข่งขัน | ต้องใช้สคริปต์แยกตัดสินใหม่ ในการทดสอบ 1,000 เกม ผลเปลี่ยน 146 เกม | ได้ผลตามกติกาไทยทันที: ผลเปลี่ยน 0 จาก 1,000 เกม |
+| ความยาวเกม | เฉลี่ย 322 ครึ่งตา ใช้เวลา 66.5 นาทีสำหรับ 1,000 เกมที่ 10+0.1 | เฉลี่ย 194 ครึ่งตา ใช้เวลา 45.9 นาทีสำหรับการแข่งขันเดียวกัน |
+| รูปแบบหมาก | หมากรุก 75 แบบ ค่าเริ่มต้นคือหมากรุกสากล | หมากรุกไทยเท่านั้น เป็นค่าเริ่มต้น |
+| หน้าต่างโปรแกรม | ตัวหมากรุกสากล ภาษาอังกฤษ | ตัวหมากรุกไทย ภาษาไทยเป็นค่าเริ่มต้น (เลือกภาษาอังกฤษได้) พิกัดกระดานแบบไทย |
 
-The numbers come from the same 1,000-game match (same engines, book and seed)
-played once with Cute Chess and once with Cute Makruk; both PGNs were checked
-position by position against an independent model of the Thai rules.
+ตัวเลขมาจากการแข่งขัน 1,000 เกมชุดเดียวกัน (เอนจิน ตำราเปิดหมาก และค่าสุ่มเดียวกัน)
+เล่นครั้งหนึ่งด้วย Cute Chess และอีกครั้งด้วย Cute Makruk แล้วตรวจ PGN ทั้งสองไฟล์ทีละตำแหน่ง
+กับแบบจำลองกติกาไทยที่เขียนแยกไว้
 
-`makruk` is the only variant and the default one. The binary is `cutemakruk`;
-the options are those of `cutechess-cli` (see `cutemakruk --help`).
+## โปรแกรมแบบหน้าต่าง (GUI)
 
-The GUI `cutemakruk-gui` plays and shows Makruk games (human or engine) with the
-same rules, using the Makruk piece images by Ada Joule
+`cutemakruk-gui` ใช้เล่นและดูเกมหมากรุกไทย ทั้งคนกับคน คนกับเอนจิน และเอนจินกับเอนจิน
+ด้วยกติกาเดียวกัน ภาพตัวหมากเป็นผลงานของ Ada Joule
 ([Fulmene/makruk-pieces-image](https://github.com/Fulmene/makruk-pieces-image),
-CC BY-SA 4.0; merged into `projects/gui/res/chessboard/makruk-fulmene.svg` by
-`tools/makruk/make_pieces.py`, see `makruk-fulmene.txt`). Help > About shows the
-version, credits and licence tabs. The GUI is in Thai by default; View > Language
-> English (or `cutemakruk-gui --lang en`) switches to English. The Thai texts are in
-`projects/gui/res/i18n/th.tsv` (`tools/makruk/gui_strings.py --check` lists missing ones).
+สัญญาอนุญาต CC BY-SA 4.0) เมนู ช่วยเหลือ > เกี่ยวกับ Cute Makruk มีแท็บ เกี่ยวกับ, ผู้มีส่วนร่วม และ สัญญาอนุญาต
 
-Result texts: `White mates` / `Black mates`, `Draw by stalemate`,
-`Draw by bare khuns`, `Draw by board's honour counting`,
-`Draw by pieces' honour counting`, `Draw by 3-fold repetition`.
+โปรแกรมแสดงภาษาไทยเป็นค่าเริ่มต้น เปลี่ยนเป็นภาษาอังกฤษได้ที่เมนู มุมมอง > ภาษา > English
+(หรือ `cutemakruk-gui --lang en`) ข้อความภาษาไทยอยู่ในไฟล์ `projects/gui/res/i18n/th.tsv`
 
-Tests (`tools/makruk/`, they need a Platoo checkout for the rule cases):
+## โปรแกรมแบบบรรทัดคำสั่ง
+
+ไฟล์โปรแกรมคือ `cutemakruk` ตัวเลือกต่าง ๆ เหมือน `cutechess-cli` (ดู `cutemakruk --help`)
+มีเพียงหมากรุกไทย (`makruk`) ซึ่งเป็นค่าเริ่มต้น ตัวอย่าง:
+
+    cutemakruk -engine cmd=engine1.exe -engine cmd=engine2.exe -each proto=uci tc=10+0.1 -games 100 -maxmoves 400 -pgnout games.pgn
+
+## การทดสอบ
+
+สคริปต์อยู่ใน `tools/makruk/` (ชุดทดสอบกติกาต้องใช้ซอร์สของ Platoo)
 
     python tools/makruk/rule_cases.py --platoo <platoo checkout> --judge build/makrukjudge.exe
     python tools/makruk/compare_readjudicate.py --judge build/makrukjudge.exe games.pgn games_thai.csv
 
-`makrukjudge` is a small driver around the board code: `makrukjudge pos` reads
-`<fen>|<uci moves>` lines and prints FEN, result, counting state and legal moves;
-`makrukjudge pgn FILE...` prints, for each game, the first position that is over
-by the Thai rules.
+`makrukjudge pos` อ่านบรรทัด `<fen>|<uci moves>` แล้วแสดง FEN ผล สถานะการนับ และตาเดินที่ถูกกติกา
+`makrukjudge pgn FILE...` แสดงตำแหน่งแรกในแต่ละเกมที่จบตามกติกาไทย
 
-Build (MSYS2 MinGW64, Qt 6):
+## การคอมไพล์ (MSYS2 MinGW64, Qt 6)
 
     pacman -S mingw-w64-x86_64-qt6-base mingw-w64-x86_64-qt6-svg mingw-w64-x86_64-qt6-5compat mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
     cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=OFF -S . -B build
     cmake --build build --target cli makrukjudge gui
 
-## Credits
+## สัญญาอนุญาตและผู้มีส่วนร่วม
 
-* **[Cute Chess](https://github.com/cutechess/cutechess)** by Ilari Pihlajisto,
-  Arto Jonsson and contributors: Cute Makruk is a fork of Cute Chess 1.5.1 and
-  all credit for the match engine, the GUI and the library goes to them.
-* **Makruk piece images** by Ada Joule
-  ([Fulmene/makruk-pieces-image](https://github.com/Fulmene/makruk-pieces-image)),
-  CC BY-SA 4.0.
-* **[Qt](https://www.qt.io)** by The Qt Company and contributors (LGPL v3).
-
-## License
-
-Cute Makruk is free software under the GNU General Public License v3 (see
-`COPYING`), like Cute Chess. The Makruk piece images are licensed under
-CC BY-SA 4.0. Cute Makruk changes Copyright (C) 2026 Kiraro33 (O.T.).
+Cute Makruk เป็นซอฟต์แวร์เสรีภายใต้ GNU General Public License v3 (ดู `COPYING`)
+เช่นเดียวกับ Cute Chess ขอขอบคุณผู้พัฒนา [Cute Chess](https://github.com/cutechess/cutechess) (Ilari Pihlajisto, Arto Jonsson
+และผู้ร่วมพัฒนา) ภาพตัวหมากใช้สัญญาอนุญาต CC BY-SA 4.0 (Ada Joule)
+ส่วนที่แก้ไขสำหรับ Cute Makruk: Copyright (C) 2026 Kiraro33 (O.T.)
