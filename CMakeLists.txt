@@ -273,6 +273,7 @@ add_executable(gui
 
 	projects/gui/res/chessboard/chessboard.qrc
 	projects/gui/res/icons/icons.qrc
+	projects/gui/res/i18n/i18n.qrc
 )
 
 if(WIN32)

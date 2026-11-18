@@ -35,6 +35,7 @@
 #include <QDialogButtonBox>
 #include <QTabWidget>
 #include <QTextBrowser>
+#include <QActionGroup>
 #include <QVBoxLayout>
 
 #include <board/boardfactory.h>
@@ -316,6 +317,26 @@ void MainWindow::createMenus()
 
 	m_viewMenu = menuBar()->addMenu(tr("&View"));
 	m_viewMenu->addAction(m_flipBoardAct);
+	m_viewMenu->addSeparator();
+	QMenu* langMenu = m_viewMenu->addMenu(tr("Language"));
+	QActionGroup* langGroup = new QActionGroup(langMenu);
+	const QString curLang = QSettings().value("ui/language", "th").toString();
+	const QList<QPair<QString, QString>> langs = {
+		{"th", tr("Thai (ไทย)")}, {"en", tr("English")} };
+	for (const auto& l : langs)
+	{
+		QAction* act = langMenu->addAction(l.second);
+		act->setCheckable(true);
+		act->setChecked(l.first == curLang);
+		langGroup->addAction(act);
+		const QString code = l.first;
+		connect(act, &QAction::triggered, this, [this, code]()
+		{
+			QSettings().setValue("ui/language", code);
+			QMessageBox::information(this, tr("Language"),
+				tr("The language changes after a restart."));
+		});
+	}
 	m_viewMenu->addSeparator();
 
 	m_windowMenu = menuBar()->addMenu(tr("&Window"));

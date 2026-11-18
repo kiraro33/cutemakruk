@@ -1,0 +1,424 @@
+# Cute Makruk GUI: Thai translation (default language).
+# One line per string: English source <TAB> Thai. \n = new line, \t = tab, \\ = backslash.
+# Keep %1, %2 ... and the accelerator letter (&X) in the Thai text.
+# Check for missing strings: python tools/makruk/gui_strings.py --check projects/gui/res/i18n/th.tsv
+Active Games	เกมที่กำลังเล่น
+Add Engine	เพิ่มเอนจิน
+Configure Engine	ตั้งค่าเอนจิน
+Executables (*.exe *.bat *.cmd);;All Files (*.*)	โปรแกรม (*.exe *.bat *.cmd);;ทุกไฟล์ (*.*)
+All Files (*)	ทุกไฟล์ (*)
+Select Engine Executable	เลือกไฟล์โปรแกรมเอนจิน
+Select Engine Working Directory	เลือกโฟลเดอร์ทำงานของเอนจิน
+Engine Error	เอนจินผิดพลาด
+Duplicate engine name	ชื่อเอนจินซ้ำ
+An engine with this name already exists	มีเอนจินชื่อนี้อยู่แล้ว
+Name	ชื่อ
+Command	คำสั่ง
+Working Directory	โฟลเดอร์ทำงาน
+Protocol	โพรโทคอล
+Variants	รูปแบบหมาก
+Showing %1 of %2 engines	แสดง %1 จาก %2 เอนจิน
+Choose Directory	เลือกโฟลเดอร์
+Value	ค่า
+Alias	ชื่อแทน
+move	ตา
+score	คะแนน
+NPS	NPS
+Hash	Hash
+Pondermove	ตาที่คิดล่วงหน้า
+Ponderhit	คิดล่วงหน้าถูก
+TB	TB
+Depth	ความลึก
+Time	เวลา
+Nodes	โหนด
+Score	คะแนน
+PV	PV
+Export Opening Book	ส่งออกตำราเปิดหมาก
+Parsing %1 PGN games	กำลังอ่านเกม PGN %1 เกม
+Writing opening book to disk	กำลังบันทึกตำราเปิดหมาก
+Export Games	ส่งออกเกม
+Writing %1 games to file	กำลังบันทึก %1 เกมลงไฟล์
+Import Game	นำเข้าเกม
+Portable Game Notation (*.pgn);;All Files (*.*)	ไฟล์ PGN (*.pgn);;ทุกไฟล์ (*.*)
+Export game collection	ส่งออกชุดเกม
+Portable Game Notation (*.pgn)	ไฟล์ PGN (*.pgn)
+Copy PGN	คัดลอก PGN
+Copy FEN	คัดลอก FEN
+Remove	ลบ
+PGN database does not exist.	ไม่พบฐานข้อมูล PGN
+Remove %1 from the list of databases?	ลบ %1 ออกจากรายการฐานข้อมูลหรือไม่
+Import	นำเข้า
+PGN database has been modified since the last import.	ฐานข้อมูล PGN ถูกแก้ไขหลังการนำเข้าครั้งล่าสุด
+The database must be imported again to read it.	ต้องนำเข้าฐานข้อมูลอีกครั้งจึงจะอ่านได้
+Error occured while trying to read the PGN database.	เกิดข้อผิดพลาดขณะอ่านฐานข้อมูล PGN
+Importing the database again may fix this problem.	การนำเข้าฐานข้อมูลอีกครั้งอาจแก้ปัญหานี้ได้
+[Advanced search]	[ค้นหาขั้นสูง]
+File Error	ไฟล์ผิดพลาด
+Error while saving file %1\n%2	เกิดข้อผิดพลาดขณะบันทึกไฟล์ %1\n%2
+Opening depth	ความลึกของการเปิดหมาก
+Maximum opening depth (plies):	ความลึกสูงสุดของการเปิดหมาก (ครึ่งตา):
+Create Opening Book	สร้างตำราเปิดหมาก
+Polyglot Book File (*.bin)	ไฟล์ตำรา Polyglot (*.bin)
+Copied	คัดลอกแล้ว
+Select opening suite	เลือกชุดตำแหน่งเปิดหมาก
+PGN/EPD files (*.pgn *.epd)	ไฟล์ PGN/EPD (*.pgn *.epd)
+Select opening book	เลือกตำราเปิดหมาก
+Polyglot files (*.bin)	ไฟล์ Polyglot (*.bin)
+Skip to the beginning	ไปตาแรก
+Previous move	ตาก่อนหน้า
+Next move	ตาถัดไป
+Skip to the end	ไปตาสุดท้าย
+Cannot show game	แสดงเกมไม่ได้
+This game is incompatible with Cute Makruk and cannot be shown.	เกมนี้ใช้กับ Cute Makruk ไม่ได้ จึงแสดงไม่ได้
+Importing "%1"	กำลังนำเข้า "%1"
+%1 games/sec - %2	%1 เกม/วินาที - %2
+Import failed	นำเข้าไม่สำเร็จ
+Import failed: file does not exist	นำเข้าไม่สำเร็จ: ไม่พบไฟล์
+Import failed: I/O error	นำเข้าไม่สำเร็จ: อ่านหรือเขียนไฟล์ผิดพลาด
+Import failed: unknown error	นำเข้าไม่สำเร็จ: ข้อผิดพลาดที่ไม่ทราบสาเหตุ
+About 5 seconds	ประมาณ 5 วินาที
+About 10 seconds	ประมาณ 10 วินาที
+Less than a minute	ไม่ถึงหนึ่งนาที
+About a minute	ประมาณหนึ่งนาที
+About %1 minutes	ประมาณ %1 นาที
+&New...	เกมใหม่ (&N)...
+&Close	ปิด (&C)
+&Save	บันทึก (&S)
+Save &As...	บันทึกเป็น (&A)...
+Copy F&EN	คัดลอก FEN (&E)
+&Paste FEN	วาง FEN (&P)
+Copy PG&N	คัดลอก PGN (&N)
+&Flip Board	กลับด้านกระดาน (&F)
+Ad&judicate Draw	ตัดสินให้เสมอ (&J)
+Adjudicate Win for White	ตัดสินให้ขาวชนะ
+Adjudicate Win for Black	ตัดสินให้ดำชนะ
+Resign	ยอมแพ้
+&Quit	ออก (&Q)
+&Stop	หยุด (&S)
+&Results...	ผลการแข่งขัน (&R)...
+&Settings	ตั้งค่า (&S)
+&Game Database	ฐานข้อมูลเกม (&G)
+&Active Games	เกมที่กำลังเล่น (&A)
+&Minimize	ย่อหน้าต่าง (&M)
+Show &Previous Tab	แท็บก่อนหน้า (&P)
+Show &Next Tab	แท็บถัดไป (&N)
+&About Cute Makruk...	เกี่ยวกับ Cute Makruk (&A)...
+&Game	เกม (&G)
+&Tournament	การแข่งขัน (&T)
+T&ools	เครื่องมือ (&O)
+&View	มุมมอง (&V)
+&Window	หน้าต่าง (&W)
+&Help	ช่วยเหลือ (&H)
+Game Tabs	แท็บเกม
+Engine Debug	ข้อความดีบักเอนจิน
+Evaluation history	ประวัติการประเมิน
+White's evaluation	การประเมินของขาว
+Black's evaluation	การประเมินของดำ
+Moves	ตาเดิน
+Tags	แท็ก
+End tournament game	จบเกมการแข่งขัน
+Do you really want to end the active tournament game?	ต้องการจบเกมการแข่งขันที่กำลังเล่นอยู่ใช่หรือไม่
+Could not initialize game	เริ่มเกมไม่ได้
+The game could not be initialized due to an invalid opening.	เริ่มเกมไม่ได้ เพราะตำแหน่งเปิดหมากไม่ถูกต้อง
+Game Error	เกมผิดพลาด
+Stop tournament	หยุดการแข่งขัน
+Do you really want to stop the ongoing tournament?	ต้องการหยุดการแข่งขันที่กำลังดำเนินอยู่ใช่หรือไม่
+Tournament error	การแข่งขันผิดพลาด
+Tournament "%1" finished with an error.\n\n%2	การแข่งขัน "%1" จบลงพร้อมข้อผิดพลาด\n\n%2
+Edit move comment	แก้ไขความเห็นของตาเดิน
+Comment:	ความเห็น:
+FEN error	FEN ผิดพลาด
+Invalid FEN string for the "%1" variant:	FEN ไม่ถูกต้องสำหรับรูปแบบ "%1":
+About Cute Makruk	เกี่ยวกับ Cute Makruk
+Makruk (Thai chess) only. Games end by the Thai association rules 2569: counting (board's honour and pieces' honour), 3-fold repetition, bare khuns, stalemate and mate.	สำหรับหมากรุกไทยเท่านั้น ตัดสินผลตามกติกาของสมาคมฯ พ.ศ. 2569: การนับ (นับศักดิ์กระดานและนับศักดิ์หมาก) ตำแหน่งซ้ำ 3 ครั้ง ขุนต่อขุน อับ และรุกจน
+Based on Cute Chess %1	พัฒนาจาก Cute Chess %1
+Using Qt version %1	ใช้ Qt รุ่น %1
+Running on %1/%2	ทำงานบน %1/%2
+Cute Makruk changes Copyright (C) 2026 Kiraro33 (O.T.)	ส่วนที่แก้ไขสำหรับ Cute Makruk: Copyright (C) 2026 Kiraro33 (O.T.)
+Copyright 2008-2020 Cute Chess authors	Copyright 2008-2020 ผู้พัฒนา Cute Chess
+About	เกี่ยวกับ
+Credits	ผู้มีส่วนร่วม
+Cute Makruk is a fork of Cute Chess by Ilari Pihlajisto, Arto Jonsson and contributors, licensed under the GNU GPL version 3.	Cute Makruk พัฒนาต่อจาก Cute Chess ของ Ilari Pihlajisto, Arto Jonsson และผู้ร่วมพัฒนา ภายใต้สัญญาอนุญาต GNU GPL รุ่นที่ 3
+Makruk piece images	ภาพตัวหมากรุกไทย
+By Ada Joule (Fulmene), licensed under Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0). Changes: the piece files were merged into one SVG file and their ids renamed.	ผลงานของ Ada Joule (Fulmene) ภายใต้สัญญาอนุญาต Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0) ส่วนที่แก้ไข: รวมไฟล์ตัวหมากเป็นไฟล์ SVG ไฟล์เดียวและเปลี่ยนชื่อ id
+The Qt Company and contributors, used under the GNU LGPL version 3.	The Qt Company และผู้ร่วมพัฒนา ใช้ภายใต้สัญญาอนุญาต GNU LGPL รุ่นที่ 3
+Icons	ไอคอน
+Toolbar icons from Cute Chess.	ไอคอนแถบเครื่องมือจาก Cute Chess
+Cute Makruk is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.	Cute Makruk เป็นซอฟต์แวร์เสรี คุณสามารถแจกจ่ายต่อและ/หรือแก้ไขได้ภายใต้เงื่อนไขของ GNU General Public License ที่เผยแพร่โดย Free Software Foundation รุ่นที่ 3 หรือรุ่นที่ใหม่กว่า (ตามที่คุณเลือก)
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.	โปรแกรมนี้เผยแพร่โดยหวังว่าจะเป็นประโยชน์ แต่ไม่มีการรับประกันใด ๆ ทั้งสิ้น แม้แต่การรับประกันโดยนัยว่าเหมาะสมเชิงพาณิชย์หรือเหมาะกับวัตถุประสงค์ใดโดยเฉพาะ ดูรายละเอียดใน GNU General Public License
+The Makruk piece images are licensed under CC BY-SA 4.0.	ภาพตัวหมากรุกไทยใช้สัญญาอนุญาต CC BY-SA 4.0
+License	สัญญาอนุญาต
+Save Game	บันทึกเกม
+The game was modified.\nDo you want to save your changes?	เกมถูกแก้ไข\nต้องการบันทึกการเปลี่ยนแปลงหรือไม่
+user decision	ผู้ใช้ตัดสิน
+Select PGN output file	เลือกไฟล์ PGN สำหรับบันทึกผล
+Select EPD output file	เลือกไฟล์ EPD สำหรับบันทึกผล
+Extended Position Description (*.epd)	ไฟล์ EPD (*.epd)
+Resolve Duplicates!	มีชื่อซ้ำ กรุณาแก้ไข!
+Edit Time Control	แก้ไขการควบคุมเวลา
+ - %0 engines	 - %0 เอนจิน
+Time Control - %0	การควบคุมเวลา - %0
+Database	ฐานข้อมูล
+Event	รายการแข่งขัน
+Site	สถานที่
+Date	วันที่
+Round	รอบ
+White	ขาว
+Black	ดำ
+Result	ผล
+Clear Log	ล้างบันทึก
+Save Log to File...	บันทึกข้อความลงไฟล์...
+Save Log	บันทึกข้อความ
+Text Files (*.txt);;All Files (*.*)	ไฟล์ข้อความ (*.txt);;ทุกไฟล์ (*.*)
+The file "%1" could not be saved because of insufficient privileges.	บันทึกไฟล์ "%1" ไม่ได้ เพราะไม่มีสิทธิ์
+Try selecting a location where you have the permissions to create files.	ลองเลือกที่ที่คุณมีสิทธิ์สร้างไฟล์
+The file "%1" could not be saved because the operation timed out.	บันทึกไฟล์ "%1" ไม่ได้ เพราะหมดเวลา
+Try saving the file to a local or another network disk.	ลองบันทึกลงดิสก์ในเครื่องหรือดิสก์เครือข่ายอื่น
+The file "%1" could not be saved.	บันทึกไฟล์ "%1" ไม่ได้
+%1 - Undefined time remaining	%1 - ไม่ทราบเวลาที่เหลือ
+Cancel	ยกเลิก
+Tournament Results	ผลการแข่งขัน
+Score of %1 vs %2: %3 - %4 - %5 [%6]\n	คะแนน %1 พบ %2: %3 - %4 - %5 [%6]\n
+\n%1 of %2 games finished.	\nจบแล้ว %1 จาก %2 เกม
+Basic	พื้นฐาน
+&Name:	ชื่อ (&N):
+Co&mmand:	คำสั่ง (&M):
+Browse...	เลือก...
+Working &Directory:	โฟลเดอร์ทำงาน (&D):
+Browse working directory.	เลือกโฟลเดอร์ทำงาน
+&Protocol:	โพรโทคอล (&P):
+&Init Strings:	คำสั่งเริ่มต้น (&I):
+This option should be checked for Xboard/Winboard engines that report their scores from white's perspective.	เลือกตัวเลือกนี้สำหรับเอนจิน Xboard/Winboard ที่รายงานคะแนนจากมุมมองของฝ่ายขาว
+Scores from &white's perspective	คะแนนจากมุมมองของฝ่ายขาว (&W)
+Scale Timeouts:	คูณเวลาหมดเวลา:
+Scale engine timeouts by this factor. Only use if necessary! Default: 1.00	คูณเวลาหมดเวลาของเอนจินด้วยค่านี้ ใช้เมื่อจำเป็นเท่านั้น! ค่าเริ่มต้น: 1.00
+The engine is put into debug mode, if the engine supports it	ให้เอนจินทำงานในโหมดดีบัก ถ้าเอนจินรองรับ
+Debug	ดีบัก
+Advanced	ขั้นสูง
+Restore the default value for each option	คืนค่าเริ่มต้นของทุกตัวเลือก
+Restore defaults	คืนค่าเริ่มต้น
+Detect the engine's options and supported features	ตรวจหาตัวเลือกและความสามารถของเอนจิน
+Detect	ตรวจหา
+Form	Form
+Default location:	ที่เก็บเริ่มต้น:
+Configured chess engines:	เอนจินที่ตั้งค่าไว้:
+Search	ค้นหา
+Add a new engine	เพิ่มเอนจินใหม่
+Add	เพิ่ม
+Remove selected engine(s)	ลบเอนจินที่เลือก
+Configure selected engine(s)	ตั้งค่าเอนจินที่เลือก
+Configure	ตั้งค่า
+Clone & modify selected engine configuration	คัดลอกและแก้ไขการตั้งค่าเอนจินที่เลือก
+Clone	คัดลอก
+Select Chess Engines	เลือกเอนจิน
+&Filter:	กรอง (&F):
+Game Database	ฐานข้อมูลเกม
+&Search:	ค้นหา (&S):
+&Clear	ล้าง (&C)
+Advanced...	ขั้นสูง...
+Import...	นำเข้า...
+Export filtered games in PGN format	ส่งออกเกมที่กรองแล้วเป็นไฟล์ PGN
+Export...	ส่งออก...
+Create opening book...	สร้างตำราเปิดหมาก...
+Event:	รายการแข่งขัน:
+Site:	สถานที่:
+White:	ขาว:
+Black:	ดำ:
+Result:	ผล:
+Variant:	รูปแบบหมาก:
+Advanced Search	ค้นหาขั้นสูง
+The name of the tournament or match event	ชื่อรายการแข่งขัน
+The location of the event	สถานที่แข่งขัน
+Date:	วันที่:
+Enable minimum date	กำหนดวันที่เริ่มต้น
+Minimum starting date of the games	วันที่เริ่มเกมที่เร็วที่สุด
+Enable maximum date	กำหนดวันที่สิ้นสุด
+Maximum starting date of the games	วันที่เริ่มเกมที่ช้าที่สุด
+Round:	รอบ:
+The minimum round ordinal of the games within the event	ลำดับรอบต่ำสุดของเกมในรายการแข่งขัน
+The maximum round ordinal of the games within the event	ลำดับรอบสูงสุดของเกมในรายการแข่งขัน
+Player:	ผู้เล่น:
+The side the player plays on	ฝ่ายที่ผู้เล่นเล่น
+Any side	ฝ่ายใดก็ได้
+The first player's name, in "lastname, firstname" format	ชื่อผู้เล่นคนแรก ในรูปแบบ "นามสกุล, ชื่อ"
+Opponent:	คู่แข่ง:
+The second player's name, in "lastname, firstname" format	ชื่อผู้เล่นคนที่สอง ในรูปแบบ "นามสกุล, ชื่อ"
+Search for the inverse of the chosen result	ค้นหาผลที่ตรงข้ามกับที่เลือก
+Not	ไม่ใช่
+The result of the games	ผลของเกม
+Any result	ผลใดก็ได้
+Any player wins	ฝ่ายใดฝ่ายหนึ่งชนะ
+White wins	ขาวชนะ
+Black wins	ดำชนะ
+First player wins	ผู้เล่นคนแรกชนะ
+First player loses	ผู้เล่นคนแรกแพ้
+Draw	เสมอ
+Unfinished	ยังไม่จบ
+Time Control:	การควบคุมเวลา:
+Opening suite	ชุดตำแหน่งเปิดหมาก
+PGN/EPD file:	ไฟล์ PGN/EPD:
+Opening order:	ลำดับการเปิดหมาก:
+Sequential	ตามลำดับ
+Random	สุ่ม
+Depth:	ความลึก:
+ plies	 ครึ่งตา
+FEN string:	FEN:
+Opening book	ตำราเปิดหมาก
+Polyglot file:	ไฟล์ Polyglot:
+ full moves	 ตาเต็ม
+Access mode:	วิธีอ่าน:
+The whole book is loaded in memory. This makes book access a bit faster but uses more memory.	โหลดตำราทั้งหมดไว้ในหน่วยความจำ อ่านได้เร็วขึ้นเล็กน้อยแต่ใช้หน่วยความจำมากขึ้น
+Ram	หน่วยความจำ
+The book is accessed directly from disk. This is a good choice for very large books.	อ่านตำราจากดิสก์โดยตรง เหมาะกับตำราขนาดใหญ่มาก
+Disk	ดิสก์
+Draw adjudication	การตัดสินเสมอ
+Move number:	ตาที่:
+The game can be adjudicated as a draw after this many full moves have been played. A value of 0 disables draw adjudication.	ตัดสินให้เสมอได้หลังจากเดินครบจำนวนตาเต็มนี้ ค่า 0 คือไม่ตัดสินเสมอ
+Off	ปิด
+Move count:	จำนวนตา:
+The scores of both players need to be within the chosen threshold for this many consecutive moves. Captures and pawn moves will reset the counters.	คะแนนของทั้งสองฝ่ายต้องอยู่ในเกณฑ์ที่เลือกติดต่อกันครบจำนวนตานี้ การกินหมากและการเดินเบี้ยจะเริ่มนับใหม่
+Score:	คะแนน:
+Both players' scores must be within this many centipawns from zero.	คะแนนของทั้งสองฝ่ายต้องห่างจากศูนย์ไม่เกินจำนวนเซนติพอว์นนี้
+ cp	 cp
+Resign adjudication	การตัดสินแพ้
+Resign adjudication is used if an engine's score is below the threshold for at least this many consecutive moves.	ตัดสินให้แพ้เมื่อคะแนนของเอนจินต่ำกว่าเกณฑ์ติดต่อกันอย่างน้อยจำนวนตานี้
+The score must be at least this many centipawns below zero.	คะแนนต้องต่ำกว่าศูนย์อย่างน้อยจำนวนเซนติพอว์นนี้
+Resignation is only based on losing side's scores.	ตัดสินแพ้จากคะแนนของฝ่ายที่เสียเปรียบเท่านั้น
+Normal	ปกติ
+Both sides are needed to indicate decisive scores.	ทั้งสองฝ่ายต้องรายงานคะแนนที่ชี้ขาด
+Two-Sided	ทั้งสองฝ่าย
+Game Length	ความยาวเกม
+Limit:	จำกัด:
+The game will be adjucated as drawn when move limit is reached	ตัดสินให้เสมอเมื่อเดินครบจำนวนตาที่จำกัด
+ moves	 ตา
+Tablebase adjudication	ตัดสินด้วยตารางหมากจบ
+Thinking on opponent's time	คิดระหว่างเวลาของคู่แข่ง
+Importing	กำลังนำเข้า
+New Game	เกมใหม่
+Human	คน
+CPU	คอมพิวเตอร์
+Configure white engine	ตั้งค่าเอนจินฝ่ายขาว
+Configure black engine	ตั้งค่าเอนจินฝ่ายดำ
+New Tournament	การแข่งขันใหม่
+General information	ข้อมูลทั่วไป
+My Tournament	การแข่งขันของฉัน
+PGN output:	บันทึก PGN:
+EPD output:	บันทึก EPD:
+Games	เกม
+Players	ผู้เล่น
+Configure...	ตั้งค่า...
+Time Controls	การควบคุมเวลา
+Link/unlink white's and black's time controls	ใช้หรือไม่ใช้การควบคุมเวลาเดียวกันสำหรับขาวและดำ
+Time Control for 2nd Player	การควบคุมเวลาของผู้เล่นคนที่สอง
+Select common or separate time controls	เลือกการควบคุมเวลาแบบเดียวกันหรือแยกกัน
+Settings	ตั้งค่า
+General	ทั่วไป
+Highlight legal moves	แสดงตาเดินที่ถูกกติกา
+Show move arrows	แสดงลูกศรตาเดิน
+Close initial game tab if unused	ปิดแท็บเกมแรกถ้าไม่ได้ใช้
+Use full name of human player	ใช้ชื่อเต็มของผู้เล่นที่เป็นคน
+Display players' sides on clocks 	แสดงฝ่ายของผู้เล่นบนนาฬิกา
+Auto flip board for human vs human	กลับกระดานอัตโนมัติเมื่อคนเล่นกับคน
+Human player can play after timeout	ผู้เล่นที่เป็นคนเดินต่อได้หลังหมดเวลา
+Duration of mo&ve animation:	ระยะเวลาภาพเคลื่อนไหวตาเดิน (&V):
+duration of a move animation (default: 300 ms)	ระยะเวลาภาพเคลื่อนไหวตาเดิน (ค่าเริ่มต้น: 300 ms)
+ ms	 ms
+&PGN Site:	สถานที่ใน PGN (&P):
+PGN output for single games:	บันทึก PGN ของเกมเดี่ยว:
+Sy&zygy tablebases path:	โฟลเดอร์ตาราง Syzygy (&Z):
+Engines	เอนจิน
+Tournaments	การแข่งขัน
+&Concurrent games:	จำนวนเกมพร้อมกัน (&C):
+Dynamic setting: Maximum number of tournament games running concurrently	ปรับได้ระหว่างแข่ง: จำนวนเกมการแข่งขันสูงสุดที่เล่นพร้อมกัน
+Time Control	การควบคุมเวลา
+Mode	โหมด
+Tournament time control	การควบคุมเวลาแบบแข่งขัน
+To&urnament	แข่งขัน (&U)
+Fixed time limit for each move	จำกัดเวลาคงที่ต่อตา
+Time &per move	เวลาต่อตา (&P)
+Infinite thinking time	คิดได้ไม่จำกัดเวลา
+Infinite	ไม่จำกัด
+Time used is added to opponent's available time	เวลาที่ใช้ไปจะเพิ่มให้คู่แข่ง
+Hourglass	นาฬิกาทราย
+Mo&ves:	จำนวนตา (&V):
+The number of moves in a time control	จำนวนตาในหนึ่งช่วงเวลา
+Whole game	ทั้งเกม
+Time:	เวลา:
+Time limit for the chosen time control	เวลาจำกัดของการควบคุมเวลาที่เลือก
+Time unit for the time limit	หน่วยของเวลาจำกัด
+Seconds	วินาที
+Minutes	นาที
+Hours	ชั่วโมง
+In&crement:	เวลาเพิ่มต่อตา (&C):
+Time increment per move in seconds	เวลาที่เพิ่มให้ทุกตา เป็นวินาที
+ sec	 วินาที
+Maximum search depth in plies (engines only)	ความลึกในการค้นหาสูงสุด เป็นครึ่งตา (เฉพาะเอนจิน)
+P&lies:	ครึ่งตา (&L):
+Maximum number of nodes to search (engines only)	จำนวนโหนดสูงสุดในการค้นหา (เฉพาะเอนจิน)
+Nodes:	โหนด:
+The time limit can be exceeded by this many milliseconds	ใช้เวลาเกินกำหนดได้ไม่เกินจำนวนมิลลิวินาทีนี้
+Mar&gin:	เวลาเผื่อ (&G):
+Tournament type	ประเภทการแข่งขัน
+Round-robin tournament	แข่งแบบพบกันหมด
+Ro&und Robin	พบกันหมด (&U)
+First engine (or group of seeded engines) plays against the rest	เอนจินแรก (หรือกลุ่มเอนจินมือวาง) แข่งกับเอนจินที่เหลือ
+Gaunt&let	หนึ่งต่อทั้งหมด (&L)
+Single-elimination tournament	แข่งแบบแพ้คัดออก
+Kno&ckout	แพ้คัดออก (&C)
+Every engine plays against all of its predecessors	ทุกเอนจินแข่งกับเอนจินที่อยู่ก่อนหน้าทั้งหมด
+&Pyramid	พีระมิด (&P)
+At most this many players from the top of the players list will be seeded in the tournament.	ผู้เล่นจากต้นรายชื่อไม่เกินจำนวนนี้จะเป็นมือวางในการแข่งขัน
+Seeds:	มือวาง:
+Rounds	รอบ
+Rounds:	จำนวนรอบ:
+Games per encounter:	จำนวนเกมต่อคู่:
+Play each opening:	เล่นแต่ละการเปิดหมาก:
+Depends on "games per encounter"	ขึ้นกับ "จำนวนเกมต่อคู่"
+once	ครั้งเดียว
+ times	 ครั้ง
+Wait between games:	รอระหว่างเกม:
+ s	 วินาที
+If enabled, crashed engines are restarted and the tournament is not stopped.	ถ้าเปิดไว้ เอนจินที่ล่มจะถูกเริ่มใหม่และการแข่งขันจะไม่หยุด
+Recover crashed engines	เริ่มเอนจินที่ล่มใหม่
+Save unfinished games	บันทึกเกมที่ยังไม่จบ
+Swap colors after each game within an encounter (default: true)	สลับสีหลังทุกเกมในคู่เดียวกัน (ค่าเริ่มต้น: เปิด)
+Swap sides	สลับฝ่าย
+Reverse sides in schedule: A vs B, C vs D ... to  B vs A, D vs C ... (default: false)	กลับฝ่ายในตารางแข่ง: A พบ B, C พบ D ... เป็น B พบ A, D พบ C ... (ค่าเริ่มต้น: ปิด)
+Reverse schedule	กลับตารางแข่ง
+Results	ผล
+Format	รูปแบบ
+Result Format	รูปแบบผล
+Language	ภาษา
+Thai (ไทย)	ไทย
+English	English (อังกฤษ)
+The language changes after a restart.	ภาษาจะเปลี่ยนหลังจากเปิดโปรแกรมใหม่
+# Qt standard buttons and message boxes (Qt has no Thai translation of its own)
+OK	ตกลง
+Close	ปิด
+Save	บันทึก
+Discard	ไม่บันทึก
+Apply	ใช้
+Reset	รีเซ็ต
+Restore Defaults	คืนค่าเริ่มต้น
+Open	เปิด
+Help	ช่วยเหลือ
+&Yes	ใช่ (&Y)
+&No	ไม่ (&N)
+Yes	ใช่
+No	ไม่
+Abort	ยกเลิก
+Retry	ลองใหม่
+Ignore	ข้าม
+Save All	บันทึกทั้งหมด
+Don't Save	ไม่บันทึก
+Close without Saving	ปิดโดยไม่บันทึก
+# Window titles; shortcuts, formats and file names stay as they are
+%1 vs %2%3	%1 พบ %2%3
+%1 vs %2 (%3)%4	%1 พบ %2 (%3)%4
+Meta+Shift+Tab	Meta+Shift+Tab
+Ctrl+Shift+Tab	Ctrl+Shift+Tab
+M/d/yyyy	M/d/yyyy
+null	null
+games.pgn	games.pgn
+tournaments.pgn	tournaments.pgn
+tournaments.epd	tournaments.epd

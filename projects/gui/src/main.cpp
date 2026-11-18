@@ -24,12 +24,93 @@
 #include <QMetaType>
 #include <QTranslator>
 #include <QSysInfo>
+#include <QFile>
+#include <QHash>
+#include <QSet>
+#include <QSettings>
 
 #include <board/genericmove.h>
 #include <board/move.h>
 #include <board/side.h>
 #include <board/result.h>
 #include <moveevaluation.h>
+
+/*!
+ * Translates the GUI from a table (res/i18n/<lang>.tsv: English source, TAB,
+ * translation). The library's texts (game results written to PGN files,
+ * time controls, engine errors) are left in English.
+ */
+class TableTranslator : public QTranslator
+{
+	public:
+		bool loadTable(const QString& path)
+		{
+			QFile file(path);
+			if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+				return false;
+			const QStringList lines = QString::fromUtf8(file.readAll()).split('\n');
+			for (const QString& line : lines)
+			{
+				if (line.isEmpty() || line.startsWith('#'))
+					continue;
+				int tab = line.indexOf('\t');
+				if (tab > 0)
+					m_table.insert(unescape(line.left(tab)),
+						       unescape(line.mid(tab + 1)));
+			}
+			return !m_table.isEmpty();
+		}
+
+		bool isEmpty() const override
+		{
+			return m_table.isEmpty();
+		}
+
+		QString translate(const char* context,
+				  const char* sourceText,
+				  const char* disambiguation = nullptr,
+				  int n = -1) const override
+		{
+			Q_UNUSED(disambiguation);
+			Q_UNUSED(n);
+			static const QSet<QString> libContexts = {
+				"Board", "Result", "Side", "EngineBuilder", "TimeControl",
+				"ChessEngine", "ChessGame", "ChessPlayer", "EngineManager",
+				"EngineOption", "EngineProcess", "GameInitializer",
+				"GameManager", "GameThread", "GauntletTournament",
+				"HumanPlayer", "KnockoutTournament", "MoveEvaluation",
+				"OpeningBook", "OpeningSuite", "PipeReader", "PlayerBuilder",
+				"PyramidTournament", "ResultFormatter", "RoundRobinTournament",
+				"Sprt", "Tournament", "UciEngine", "Worker", "XboardEngine"
+			};
+			if (sourceText == nullptr)
+				return QString();
+			QString ctx = QString::fromLatin1(context);
+			ctx = ctx.mid(ctx.lastIndexOf(':') + 1);
+			if (libContexts.contains(ctx))
+				return QString();
+			return m_table.value(QString::fromUtf8(sourceText));
+		}
+
+	private:
+		static QString unescape(const QString& s)
+		{
+			QString out;
+			for (int i = 0; i < s.size(); i++)
+			{
+				if (s[i] == '\\' && i + 1 < s.size())
+				{
+					QChar c = s[++i];
+					out += c == 'n' ? QChar('\n') : c == 't' ? QChar('\t') : c;
+				}
+				else
+					out += s[i];
+			}
+			return out;
+		}
+
+		QHash<QString, QString> m_table;
+};
 
 int main(int argc, char* argv[])
 {
@@ -44,12 +125,20 @@ int main(int argc, char* argv[])
 
 	CuteChessApplication app(argc, argv);
 
-	QTranslator translator;
-	if (translator.load(QLocale(), "cutechess", "_", "translations", ".qm"))
-		app.installTranslator(&translator);
-
 	QStringList arguments = app.arguments();
 	arguments.takeFirst(); // application name
+
+	// Thai by default; "--lang en" or View > Language switches to English
+	QString lang = QSettings().value("ui/language", "th").toString();
+	int langArg = arguments.indexOf("--lang");
+	if (langArg >= 0 && langArg + 1 < arguments.size())
+	{
+		lang = arguments.at(langArg + 1);
+		arguments.remove(langArg, 2);
+	}
+	TableTranslator translator;
+	if (lang != "en" && translator.loadTable(":/i18n/" + lang + ".tsv"))
+		app.installTranslator(&translator);
 
 	// Use trivial command-line parsing for now
 	QTextStream out(stdout);
