@@ -53,6 +53,18 @@ version, credits and licence tabs. The GUI is in Thai by default; View > Languag
 > English (or `cutemakruk-gui --lang en`) switches to English. The Thai texts are in
 `projects/gui/res/i18n/th.tsv` (`tools/makruk/gui_strings.py --check` lists missing ones).
 
+## Download and updates
+
+Get it from [Releases](https://github.com/kiraro33/cutemakruk/releases):
+
+* Windows: `cutemakruk-<version>-windows-x64.zip`, unzip and run `cutemakruk-gui.exe`
+  (the command-line `cutemakruk.exe` is in the same folder);
+* Linux: `cutemakruk-<version>-linux-x64.tar.gz`, the command-line tool (glibc 2.17 or newer).
+
+Check for a new release: Help > Check for Updates in the GUI, or `cutemakruk --check-update`
+(exit code 0 = up to date, 1 = newer release, 2 = check failed). It only asks GitHub for
+the latest release; nothing about you is sent.
+
 Result texts: `White mates` / `Black mates`, `Draw by stalemate`,
 `Draw by bare khuns`, `Draw by board's honour counting`,
 `Draw by pieces' honour counting`, `Draw by 3-fold repetition`.

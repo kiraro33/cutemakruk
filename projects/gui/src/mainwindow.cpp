@@ -36,6 +36,8 @@
 #include <QTabWidget>
 #include <QTextBrowser>
 #include <QActionGroup>
+#include <QDesktopServices>
+#include <updatecheck.h>
 #include <QVBoxLayout>
 
 #include <board/boardfactory.h>
@@ -346,6 +348,30 @@ void MainWindow::createMenus()
 		SLOT(onWindowMenuAboutToShow()));
 
 	m_helpMenu = menuBar()->addMenu(tr("&Help"));
+	QAction* updateAct = m_helpMenu->addAction(tr("Check for &Updates..."));
+	connect(updateAct, &QAction::triggered, this, [this]()
+	{
+		QApplication::setOverrideCursor(Qt::WaitCursor);
+		const auto res = UpdateCheck::check(CUTEMAKRUK_VERSION);
+		QApplication::restoreOverrideCursor();
+		if (!res.ok)
+		{
+			QMessageBox::warning(this, tr("Check for Updates"),
+				tr("Could not check for updates: %1").arg(res.error));
+			return;
+		}
+		if (!res.newer)
+		{
+			QMessageBox::information(this, tr("Check for Updates"),
+				tr("You have the latest version (%1).").arg(res.current));
+			return;
+		}
+		auto answer = QMessageBox::question(this, tr("Check for Updates"),
+			tr("Cute Makruk %1 is available. You have %2.\n\n"
+			   "Open the download page?").arg(res.latest, res.current));
+		if (answer == QMessageBox::Yes)
+			QDesktopServices::openUrl(QUrl(res.url));
+	});
 	m_helpMenu->addAction(m_aboutAct);
 }
 

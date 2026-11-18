@@ -422,3 +422,9 @@ null	null
 games.pgn	games.pgn
 tournaments.pgn	tournaments.pgn
 tournaments.epd	tournaments.epd
+# Update check
+Check for &Updates...	ตรวจหาเวอร์ชันใหม่ (&U)...
+Check for Updates	ตรวจหาเวอร์ชันใหม่
+Could not check for updates: %1	ตรวจหาเวอร์ชันใหม่ไม่ได้: %1
+You have the latest version (%1).	คุณใช้เวอร์ชันล่าสุดแล้ว (%1)
+Cute Makruk %1 is available. You have %2.\n\nOpen the download page?	มี Cute Makruk %1 แล้ว คุณใช้ %2 อยู่\n\nเปิดหน้าดาวน์โหลดหรือไม่

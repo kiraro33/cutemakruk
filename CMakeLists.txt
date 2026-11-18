@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CUTECHESS_VERSION "unknown")
-set(CUTEMAKRUK_VERSION "0.2.0")
+set(CUTEMAKRUK_VERSION "1.0.0")
 if(EXISTS ${CMAKE_SOURCE_DIR}/.version)
 	file(READ ${CMAKE_SOURCE_DIR}/.version CUTECHESS_VERSION)
 	string(REGEX REPLACE "(\r?\n)+" "" CUTECHESS_VERSION "${CUTECHESS_VERSION}")
@@ -21,7 +21,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(QT_COMPONENTS Core Gui Widgets Concurrent Svg PrintSupport Core5Compat)
+set(QT_COMPONENTS Core Gui Widgets Concurrent Svg PrintSupport Core5Compat Network)
 if(WITH_TESTS)
 	enable_testing()
 	set(QT_COMPONENTS ${QT_COMPONENTS} Test)
@@ -191,7 +191,8 @@ add_executable(cli
 set_target_properties(cli PROPERTIES OUTPUT_NAME cutemakruk)
 target_compile_definitions(cli PRIVATE CUTEMAKRUK_VERSION="${CUTEMAKRUK_VERSION}")
 
-target_link_libraries(cli Qt::Core Qt::Core5Compat)
+target_link_libraries(cli Qt::Core Qt::Core5Compat Qt::Network)
+target_include_directories(cli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/projects/common)
 target_link_libraries(cli lib)
 
 # cutemakruk: rule test driver (Thai rules 2569)
@@ -292,7 +293,8 @@ target_include_directories(gui PRIVATE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/projects/gui/src>
 )
 
-target_link_libraries(gui Qt::Core Qt::Widgets Qt::Gui Qt::Concurrent Qt::Svg Qt::PrintSupport Qt::Core5Compat)
+target_link_libraries(gui Qt::Core Qt::Widgets Qt::Gui Qt::Concurrent Qt::Svg Qt::PrintSupport Qt::Core5Compat Qt::Network)
+target_include_directories(gui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/projects/common)
 target_link_libraries(gui lib)
 
 if(WITH_TESTS)

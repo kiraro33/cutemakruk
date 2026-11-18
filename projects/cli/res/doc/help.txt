@@ -6,6 +6,8 @@ Options:
 
   -help 		Display this information
   -version		Display the version number
+  -check-update		Check GitHub for a newer Cute Makruk release
+			(exit code 0: up to date, 1: newer release, 2: check failed)
   -engines		Display a list of configured engines and exit
   -engine OPTIONS	Add an engine defined by OPTIONS to the tournament
   -each OPTIONS		Apply OPTIONS to each engine in the tournament

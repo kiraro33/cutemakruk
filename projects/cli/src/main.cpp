@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QMetaType>
 #include <QSysInfo>
+#include <updatecheck.h>
 
 #include <mersenne.h>
 #include <enginemanager.h>
@@ -776,6 +777,25 @@ int main(int argc, char* argv[])
 			for (const auto& engine : engines)
 				out << engine.name() << '\n';
 
+			return 0;
+		}
+		else if (arg == "--check-update" || arg == "-check-update")
+		{
+			// exit code: 0 up to date, 1 newer release available, 2 check failed
+			const auto res = UpdateCheck::check(CUTEMAKRUK_VERSION);
+			if (!res.ok)
+			{
+				out << "Could not check for updates: " << res.error << '\n';
+				return 2;
+			}
+			if (res.newer)
+			{
+				out << "Cute Makruk " << res.latest << " is available (this is "
+				    << res.current << ").\n" << "Download: " << res.url << '\n';
+				return 1;
+			}
+			out << "Cute Makruk " << res.current
+			    << " is up to date (latest release " << res.latest << ").\n";
 			return 0;
 		}
 		else if (arg == "--help" || arg == "-help")

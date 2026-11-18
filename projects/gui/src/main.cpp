@@ -51,7 +51,7 @@ class TableTranslator : public QTranslator
 			const QStringList lines = QString::fromUtf8(file.readAll()).split('\n');
 			for (QString line : lines)
 			{
-				if (line.endsWith(''))
+				if (line.endsWith('\r'))
 					line.chop(1);
 				if (line.isEmpty() || line.startsWith('#'))
 					continue;
