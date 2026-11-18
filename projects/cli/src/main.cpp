@@ -762,7 +762,7 @@ int main(int argc, char* argv[])
 			out << "/" << QSysInfo::currentCpuArchitecture() << '\n' << '\n';
 			out << "Copyright (C) 2008-2023 Ilari Pihlajisto, Arto Jonsson ";
 			out << "and contributors" << '\n';
-			out << "cutemakruk changes Copyright (C) 2026 PlaToo-PM" << '\n';
+			out << "cutemakruk changes Copyright (C) 2026 Kiraro33 (O.T.)" << '\n';
 			out << "This is free software; see the source for copying ";
 			out << "conditions.  There is NO" << '\n' << "warranty; not even for ";
 			out << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.";
