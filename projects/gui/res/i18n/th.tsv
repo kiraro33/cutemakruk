@@ -484,3 +484,34 @@ Theme	ธีม
 Follow Windows	ตาม Windows
 Light	สว่าง
 Dark	มืด
+# AI vs AI SPRT
+AI vs AI SPRT	AI vs AI SPRT
+SPRT 10+0.1...	SPRT 10+0.1...
+SPRT 60+0.6...	SPRT 60+0.6...
+AI vs AI SPRT - %1	AI vs AI SPRT - %1
+SPRT %1 vs %2 (%3)	SPRT %1 พบ %2 (%3)
+The match stops earlier as soon as SPRT decides.	การแข่งจะหยุดก่อนครบทันทีที่ SPRT ได้ข้อสรุป
+Start position only	ตำแหน่งเริ่มต้นเท่านั้น
+EPD or PGN file of openings, played in random order;\neach opening is played twice with colours swapped.	ไฟล์เปิดหมาก EPD หรือ PGN สุ่มลำดับ\nแต่ละเปิดหมากเล่นสองเกมโดยสลับฝ่าย
+Select openings file	เลือกไฟล์เปิดหมาก
+Openings (*.epd *.pgn);;All Files (*)	เปิดหมาก (*.epd *.pgn);;ทุกไฟล์ (*)
+The games are saved here, to look at after they end.	เกมจะถูกบันทึกที่นี่ เพื่อดูย้อนหลังเมื่อจบ
+Time control:	การควบคุมเวลา:
+Test engine (new):	เอนจินที่ทดสอบ (ใหม่):
+Base engine (old):	เอนจินที่เทียบ (เดิม):
+Elo0 (H0):	Elo0 (H0):
+Elo1 (H1):	Elo1 (H1):
+Alpha:	Alpha:
+Beta:	Beta:
+Maximum games:	จำนวนเกมสูงสุด:
+Concurrent games:	เล่นพร้อมกัน (เกม):
+Openings:	เปิดหมาก:
+Save games to:	บันทึกเกมที่:
+Games are not shown while they are played. See Tournament > Results... during and after the match.	ไม่แสดงกระดานระหว่างเล่น ดูผลได้ที่ การแข่งขัน > ผลการแข่งขัน... ทั้งระหว่างและหลังการแข่ง
+Start	เริ่ม
+Openings file not found:\n%1	ไม่พบไฟล์เปิดหมาก:\n%1
+View Games	ดูเกม
+Open the saved games in the Game Database	เปิดเกมที่บันทึกไว้ในฐานข้อมูลเกม
+Engine "Threads" option for this match only;\nthe engine's saved settings are not changed.	ตัวเลือก "Threads" ของเอนจินสำหรับการแข่งนี้เท่านั้น\nไม่เปลี่ยนการตั้งค่าเอนจินที่บันทึกไว้
+About %1 of %2 CPU threads in use	ใช้ประมาณ %1 จาก %2 เธรดของ CPU
+Threads per engine:	Threads ต่อเอนจิน:

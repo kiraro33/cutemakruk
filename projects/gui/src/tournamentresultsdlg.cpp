@@ -23,8 +23,14 @@
 #include <QPlainTextEdit>
 #include <QBoxLayout>
 #include <QFont>
+#include <QFileInfo>
+#include <QHBoxLayout>
+#include <QPushButton>
 
 #include <tournament.h>
+
+#include "cutechessapp.h"
+#include "gamedatabasemanager.h"
 
 TournamentResultsDialog::TournamentResultsDialog(QWidget* parent)
 	: QDialog(parent)
@@ -39,8 +45,26 @@ TournamentResultsDialog::TournamentResultsDialog(QWidget* parent)
 	font.setPointSize(font.pointSize() - 1);
 	m_resultsEdit->document()->setDefaultFont(font);
 
+	m_viewGamesBtn = new QPushButton(tr("View Games"), this);
+	m_viewGamesBtn->setToolTip(tr("Open the saved games in the Game Database"));
+	m_viewGamesBtn->hide();
+	connect(m_viewGamesBtn, &QPushButton::clicked, this, [this]()
+	{
+		auto app = CuteChessApplication::instance();
+		app->gameDatabaseManager()->importPgnFile(m_gamesFile);
+		app->showGameDatabaseDialog();
+		// Import once per match
+		m_viewGamesBtn->setEnabled(false);
+	});
+
+	auto buttons = new QHBoxLayout;
+	buttons->setContentsMargins(6, 0, 6, 6);
+	buttons->addStretch();
+	buttons->addWidget(m_viewGamesBtn);
+
 	auto layout = new QBoxLayout(QBoxLayout::TopToBottom);
 	layout->addWidget(m_resultsEdit);
+	layout->addLayout(buttons);
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	setLayout(layout);
@@ -51,10 +75,23 @@ TournamentResultsDialog::~TournamentResultsDialog()
 {
 }
 
-void TournamentResultsDialog::setTournament(Tournament* tournament)
+void TournamentResultsDialog::setTournament(Tournament* tournament,
+					    const QString& gamesFile)
 {
 	setWindowTitle(tournament->name());
 	m_resultsEdit->setPlainText(tournament->results());
+
+	m_gamesFile = gamesFile;
+	m_viewGamesBtn->setVisible(!gamesFile.isEmpty());
+	m_viewGamesBtn->setEnabled(false);
+	if (gamesFile.isEmpty())
+		return;
+
+	// The games can be looked at once the match is over
+	connect(tournament, &Tournament::finished, this, [this]()
+	{
+		m_viewGamesBtn->setEnabled(QFileInfo::exists(m_gamesFile));
+	});
 }
 
 void TournamentResultsDialog::update()

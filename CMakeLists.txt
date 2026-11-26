@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CUTECHESS_VERSION "unknown")
-set(CUTEMAKRUK_VERSION "1.1.0")
+set(CUTEMAKRUK_VERSION "1.2.0")
 if(EXISTS ${CMAKE_SOURCE_DIR}/.version)
 	file(READ ${CMAKE_SOURCE_DIR}/.version CUTECHESS_VERSION)
 	string(REGEX REPLACE "(\r?\n)+" "" CUTECHESS_VERSION "${CUTECHESS_VERSION}")
@@ -236,6 +236,7 @@ add_executable(gui
 	projects/gui/src/pgndatabasemodel.cpp
 	projects/gui/src/movenumbertoken.cpp
 	projects/gui/src/newtournamentdialog.cpp
+	projects/gui/src/sprtdialog.cpp
 	projects/gui/src/engineoptiondelegate.cpp
 	projects/gui/src/movetoken.cpp
 	projects/gui/src/autoverticalscroller.cpp
