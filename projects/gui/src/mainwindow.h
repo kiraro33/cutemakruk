@@ -65,6 +65,7 @@ class MainWindow : public QMainWindow
 	private slots:
 		void newGame();
 		void newTournament();
+		void newSprtMatch(int baseMs, int incMs);
 		void onWindowMenuAboutToShow();
 		void showGameWindow();
 		void updateWindowTitle();
@@ -124,9 +125,12 @@ class MainWindow : public QMainWindow
 		int tabIndex(Tournament* tournament, bool freeTab = false) const;
 		void addDefaultWindowMenu();
 		void adjudicateGame(Chess::Side winner);
+		void startTournament(Tournament* t, bool showGames,
+				     const QString& gamesFile = QString());
 
 		QMenu* m_gameMenu;
 		QMenu* m_tournamentMenu;
+		QMenu* m_sprtMenu;
 		QMenu* m_toolsMenu;
 		QMenu* m_viewMenu;
 		QMenu* m_windowMenu;
@@ -154,6 +158,8 @@ class MainWindow : public QMainWindow
 		QAction* m_newTournamentAct;
 		QAction* m_stopTournamentAct;
 		QAction* m_showTournamentResultsAct;
+		QAction* m_sprt10Act;
+		QAction* m_sprt60Act;
 		QAction* m_minimizeAct;
 		QAction* m_showGameDatabaseWindowAct;
 		QAction* m_showGameWallAct;

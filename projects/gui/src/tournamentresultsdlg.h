@@ -22,6 +22,7 @@
 #include <QDialog>
 
 class QPlainTextEdit;
+class QPushButton;
 class Tournament;
 
 class TournamentResultsDialog : public QDialog
@@ -33,14 +34,20 @@ class TournamentResultsDialog : public QDialog
 	    TournamentResultsDialog(QWidget* parent = nullptr);
 	    virtual ~TournamentResultsDialog();
 
-	    /*! Sets \a tournament as the current tournament. */
-	    void setTournament(Tournament* tournament);
+	    /*!
+	     * Sets \a tournament as the current tournament. If \a gamesFile
+	     * is given, its games can be opened once the tournament ends.
+	     */
+	    void setTournament(Tournament* tournament,
+			       const QString& gamesFile = QString());
 
 	public slots:
 		void update();
 
 	private:
 		QPlainTextEdit* m_resultsEdit;
+		QPushButton* m_viewGamesBtn;
+		QString m_gamesFile;
 };
 
 #endif // TOURNAMENTRESULTSDLG_H

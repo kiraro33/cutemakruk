@@ -57,6 +57,7 @@
 #include "movelist.h"
 #include "newgamedlg.h"
 #include "newtournamentdialog.h"
+#include "sprtdialog.h"
 #include "chessclock.h"
 #include "plaintextlog.h"
 #include "pgntagsmodel.h"
@@ -198,6 +199,9 @@ void MainWindow::createActions()
 	m_stopTournamentAct = new QAction(tr("&Stop"), this);
 	m_showTournamentResultsAct = new QAction(tr("&Results..."), this);
 
+	m_sprt10Act = new QAction(tr("SPRT 10+0.1..."), this);
+	m_sprt60Act = new QAction(tr("SPRT 60+0.6..."), this);
+
 	m_showSettingsAct = new QAction(tr("&Settings"), this);
 	m_showSettingsAct->setMenuRole(QAction::PreferencesRole);
 
@@ -264,6 +268,14 @@ void MainWindow::createActions()
 		app, &CuteChessApplication::onQuitAction);
 
 	connect(m_newTournamentAct, SIGNAL(triggered()), this, SLOT(newTournament()));
+	connect(m_sprt10Act, &QAction::triggered, this, [this]()
+	{
+		newSprtMatch(10000, 100);
+	});
+	connect(m_sprt60Act, &QAction::triggered, this, [this]()
+	{
+		newSprtMatch(60000, 600);
+	});
 
 	connect(m_minimizeAct, &QAction::triggered, this, [=]()
 	{
@@ -316,7 +328,14 @@ void MainWindow::createMenus()
 	m_tournamentMenu->addAction(m_showTournamentResultsAct);
 	m_stopTournamentAct->setEnabled(false);
 
-	m_toolsMenu = menuBar()->addMenu(tr("T&ools"));
+	m_sprtMenu = menuBar()->addMenu(tr("AI vs AI SPRT"));
+	m_sprtMenu->addAction(m_sprt10Act);
+	m_sprtMenu->addAction(m_sprt60Act);
+	m_sprtMenu->addSeparator();
+	m_sprtMenu->addAction(m_stopTournamentAct);
+	m_sprtMenu->addAction(m_showTournamentResultsAct);
+
+	m_toolsMenu =menuBar()->addMenu(tr("T&ools"));
 	m_toolsMenu->addAction(m_showSettingsAct);
         m_toolsMenu->addAction(m_showGameDatabaseWindowAct);
 
@@ -899,17 +918,35 @@ void MainWindow::newTournament()
 		return;
 
 	GameManager* manager = CuteChessApplication::instance()->gameManager();
+	startTournament(dlg.createTournament(manager), true);
+}
 
-	Tournament* t = dlg.createTournament(manager);
+void MainWindow::newSprtMatch(int baseMs, int incMs)
+{
+	auto app = CuteChessApplication::instance();
+	SprtDialog dlg(app->engineManager(), baseMs, incMs, this);
+	if (dlg.exec() != QDialog::Accepted)
+		return;
+
+	startTournament(dlg.createTournament(app->gameManager()), false,
+			dlg.pgnFile());
+}
+
+void MainWindow::startTournament(Tournament* t, bool showGames,
+				 const QString& gamesFile)
+{
 	auto resultsDialog = CuteChessApplication::instance()->tournamentResultsDialog();
 	connect(t, SIGNAL(finished()),
 		this, SLOT(onTournamentFinished()));
-	connect(t, SIGNAL(gameStarted(ChessGame*, int, int, int)),
-		this, SLOT(addGame(ChessGame*)));
+	if (showGames)
+	{
+		connect(t, SIGNAL(gameStarted(ChessGame*, int, int, int)),
+			this, SLOT(addGame(ChessGame*)));
+		connect(t, SIGNAL(gameFinished(ChessGame*, int, int, int)),
+			this, SLOT(onGameFinished(ChessGame*)));
+	}
 	connect(t, SIGNAL(gameFinished(ChessGame*, int, int, int)),
 		resultsDialog, SLOT(update()));
-	connect(t, SIGNAL(gameFinished(ChessGame*, int, int, int)),
-		this, SLOT(onGameFinished(ChessGame*)));
 	t->start();
 
 	connect(m_stopTournamentAct, &QAction::triggered, [=]()
@@ -925,8 +962,12 @@ void MainWindow::newTournament()
 		t->stop();
 	});
 	m_newTournamentAct->setEnabled(false);
+	m_sprt10Act->setEnabled(false);
+	m_sprt60Act->setEnabled(false);
 	m_stopTournamentAct->setEnabled(true);
-	resultsDialog->setTournament(t);
+	resultsDialog->setTournament(t, gamesFile);
+	if (!showGames)
+		m_showTournamentResultsAct->trigger();
 }
 
 void MainWindow::onTournamentFinished()
@@ -941,6 +982,8 @@ void MainWindow::onTournamentFinished()
 
 	tournament->deleteLater();
 	m_newTournamentAct->setEnabled(true);
+	m_sprt10Act->setEnabled(true);
+	m_sprt60Act->setEnabled(true);
 	m_stopTournamentAct->setEnabled(false);
 
 	if (m_closing)
