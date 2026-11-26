@@ -255,6 +255,8 @@ Tournament* SprtDialog::createTournament(GameManager* gameManager) const
 	t->setPgnOutput(pgn);
 	// No board tabs hold the games, so the tournament frees them
 	t->setPgnCleanupEnabled(true);
+	// Games cut short when SPRT decides are left out of the PGN
+	t->setPgnWriteUnfinishedGames(false);
 
 	t->setGamesPerEncounter(2);
 	t->setRoundMultiplier(qMax(1, m_maxGames->value() / 2));
